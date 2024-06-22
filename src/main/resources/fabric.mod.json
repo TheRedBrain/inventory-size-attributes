@@ -1,41 +1,37 @@
 {
 	"schemaVersion": 1,
-	"id": "modid",
+	"id": "shieldapi",
 	"version": "${version}",
-	"name": "Example mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Shield API",
+	"description": "Creating shields with custom models was never easier!",
 	"authors": [
-		"Me!"
+		"TheRedBrain"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/TheRedBrain/shield-api"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
+
+	"license": "MIT",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
+			"com.github.theredbrain.shieldapi.ShieldAPI"
 		],
 		"client": [
-			"com.example.ExampleModClient"
+			"com.github.theredbrain.shieldapi.ShieldAPIClient"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json",
+		"shieldapi.mixins.json",
 		{
-			"config": "modid.client.mixins.json",
+			"config": "shieldapi.client.mixins.json",
 			"environment": "client"
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
-		"java": ">=21",
+		"fabricloader": ">=0.14.20",
+		"minecraft": "1.20.1",
+		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
