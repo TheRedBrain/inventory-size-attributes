@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Pair;
 import org.jetbrains.annotations.Nullable;
-import oshi.util.tuples.Pair;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -49,7 +49,7 @@ public class CustomShieldItem extends ShieldItem {
     protected Multimap<EntityAttribute, EntityAttributeModifier> buildModifiers(List<Pair<EntityAttribute, EntityAttributeModifier>> attributeModifierList) {
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
         for (Pair<EntityAttribute, EntityAttributeModifier> pair : attributeModifierList) {
-            builder.put(pair.getA(), pair.getB());
+            builder.put(pair.getLeft(), pair.getRight());
         }
         return builder.build();
     }
