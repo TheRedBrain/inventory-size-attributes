@@ -32,7 +32,7 @@ public class ShieldAPITest implements ModInitializer {
 							EntityAttributes.GENERIC_ARMOR,
 							new EntityAttributeModifier(
 									"test_buckler_armor",
-									2.0,
+									4.0,
 									EntityAttributeModifier.Operation.ADDITION
 							)
 					)
@@ -48,5 +48,17 @@ public class ShieldAPITest implements ModInitializer {
 		});
 		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "test_buckler"), TEST_BUCKLER);
 
+		((CustomShieldItem)TEST_BUCKLER).setAttributeModifiers(
+				List.of(
+						new Pair<>(
+								EntityAttributes.GENERIC_ARMOR,
+								new EntityAttributeModifier(
+										"test_buckler_armor",
+										2.0,
+										EntityAttributeModifier.Operation.ADDITION
+								)
+						)
+				)
+		);
 	}
 }

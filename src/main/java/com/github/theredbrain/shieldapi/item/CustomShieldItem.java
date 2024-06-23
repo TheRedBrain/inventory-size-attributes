@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public class CustomShieldItem extends ShieldItem {
 
-	private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+	private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
 	@Nullable
 	private final SoundEvent equipSound;
@@ -36,6 +36,10 @@ public class CustomShieldItem extends ShieldItem {
 	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
 		return this.repairIngredientSupplier.get().test(ingredient) || super.canRepair(stack, ingredient);
+	}
+
+	public void setAttributeModifiers(List<Pair<EntityAttribute, EntityAttributeModifier>> attributeModifierList) {
+		this.attributeModifiers = buildModifiers(attributeModifierList);
 	}
 
 	@Override
