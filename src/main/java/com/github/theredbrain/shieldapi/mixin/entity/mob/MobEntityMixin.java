@@ -18,19 +18,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity {
 
-    protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
-        super(entityType, world);
-    }
+	protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+		super(entityType, world);
+	}
 
-    @Inject(method = "disablePlayerShield", at = @At("TAIL"))
-    private void shieldapi$disablePlayerShield(PlayerEntity player, ItemStack mobStack, ItemStack playerStack, CallbackInfo ci) {
-        if (!mobStack.isEmpty() && !playerStack.isEmpty() && mobStack.getItem() instanceof AxeItem && playerStack.getItem() instanceof CustomShieldItem playerStackItem) {
-            float f = 0.25F + (float) EnchantmentHelper.getEfficiency(this) * 0.05F;
-            if (this.random.nextFloat() < f) {
-                player.getItemCooldownManager().set(playerStackItem, 100);
-                this.getWorld().sendEntityStatus(player, EntityStatuses.BREAK_SHIELD);
-            }
-        }
-    }
+	@Inject(method = "disablePlayerShield", at = @At("TAIL"))
+	private void shieldapi$disablePlayerShield(PlayerEntity player, ItemStack mobStack, ItemStack playerStack, CallbackInfo ci) {
+		if (!mobStack.isEmpty() && !playerStack.isEmpty() && mobStack.getItem() instanceof AxeItem && playerStack.getItem() instanceof CustomShieldItem playerStackItem) {
+			float f = 0.25F + (float) EnchantmentHelper.getEfficiency(this) * 0.05F;
+			if (this.random.nextFloat() < f) {
+				player.getItemCooldownManager().set(playerStackItem, 100);
+				this.getWorld().sendEntityStatus(player, EntityStatuses.BREAK_SHIELD);
+			}
+		}
+	}
 
 }

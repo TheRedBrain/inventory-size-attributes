@@ -6,7 +6,6 @@
 	"description": "Test Mod for Shield API",
 	"authors": [],
 	"contact": {},
-
 	"license": "None",
 	"environment": "*",
 	"entrypoints": {

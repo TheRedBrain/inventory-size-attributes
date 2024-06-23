@@ -21,32 +21,32 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class ShieldAPITest implements ModInitializer {
-    public static final String MOD_ID = "shieldapitest";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String MOD_ID = "shieldapitest";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final Item TEST_BUCKLER = new CustomShieldItem(
-            null,
-            () -> Ingredient.ofItems(Items.IRON_INGOT),
-            List.of(
-                    new Pair<>(
-                            EntityAttributes.GENERIC_ARMOR,
-                            new EntityAttributeModifier(
-                                    "test_buckler_armor",
-                                    2.0,
-                                    EntityAttributeModifier.Operation.ADDITION
-                            )
-                    )
-            ),
-            new FabricItemSettings().maxDamage(150));
+	public static final Item TEST_BUCKLER = new CustomShieldItem(
+			null,
+			() -> Ingredient.ofItems(Items.IRON_INGOT),
+			List.of(
+					new Pair<>(
+							EntityAttributes.GENERIC_ARMOR,
+							new EntityAttributeModifier(
+									"test_buckler_armor",
+									2.0,
+									EntityAttributeModifier.Operation.ADDITION
+							)
+					)
+			),
+			new FabricItemSettings().maxDamage(150));
 
-    @Override
-    public void onInitialize() {
-        LOGGER.info("Shield API Test initialized!");
+	@Override
+	public void onInitialize() {
+		LOGGER.info("Shield API Test initialized!");
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
-            content.add(TEST_BUCKLER);
-        });
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "test_buckler"), TEST_BUCKLER);
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
+			content.add(TEST_BUCKLER);
+		});
+		Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "test_buckler"), TEST_BUCKLER);
 
-    }
+	}
 }

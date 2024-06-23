@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
-    @Inject(method = "run", at = @At("HEAD"))
-    private void shieldapi$run(CallbackInfo ci) {
-        for (CustomShieldItem customShieldItem : ShieldAPI.instances) {
-            ShieldAPIClient.registerModelPredicateProviders(customShieldItem);
-        }
-    }
+	@Inject(method = "run", at = @At("HEAD"))
+	private void shieldapi$run(CallbackInfo ci) {
+		for (CustomShieldItem customShieldItem : ShieldAPI.instances) {
+			ShieldAPIClient.registerModelPredicateProviders(customShieldItem);
+		}
+	}
 }

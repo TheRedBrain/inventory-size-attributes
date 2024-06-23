@@ -7,11 +7,11 @@ import net.minecraft.util.Identifier;
 
 public class ShieldAPIClient implements ClientModInitializer {
 
-    @Override
-    public void onInitializeClient() {
-    }
+	@Override
+	public void onInitializeClient() {
+	}
 
-    public static void registerModelPredicateProviders(Item item) {
-        ModelPredicateProviderRegistry.register(item, new Identifier("blocking"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f);
-    }
+	public static void registerModelPredicateProviders(Item item) {
+		ModelPredicateProviderRegistry.register(item, new Identifier("blocking"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f);
+	}
 }

@@ -10,7 +10,6 @@
 	"contact": {
 		"sources": "https://github.com/TheRedBrain/shield-api"
 	},
-
 	"license": "MIT",
 	"environment": "*",
 	"entrypoints": {
