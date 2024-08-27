@@ -1,29 +1,29 @@
 {
 	"schemaVersion": 1,
-	"id": "shieldapi",
+	"id": "inventorysizeattributes",
 	"version": "${version}",
-	"name": "Shield API",
-	"description": "Creating shields with custom models was never easier!",
+	"name": "Inventory Size Attributes",
+	"description": "Disable/Enable inventory slots with entity attributes",
 	"authors": [
 		"TheRedBrain"
 	],
 	"contact": {
-		"sources": "https://github.com/TheRedBrain/shield-api"
+		"sources": "https://github.com/TheRedBrain/inventory-size-attributes"
 	},
 	"license": "MIT",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.github.theredbrain.shieldapi.ShieldAPI"
+			"com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes"
 		],
 		"client": [
-			"com.github.theredbrain.shieldapi.ShieldAPIClient"
+			"com.github.theredbrain.inventorysizeattributes.InventorySizeAttributesClient"
 		]
 	},
 	"mixins": [
-		"shieldapi.mixins.json",
+		"inventorysizeattributes.mixins.json",
 		{
-			"config": "shieldapi.client.mixins.json",
+			"config": "inventorysizeattributes.client.mixins.json",
 			"environment": "client"
 		}
 	],

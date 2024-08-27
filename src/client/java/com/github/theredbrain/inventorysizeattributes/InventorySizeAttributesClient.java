@@ -1,11 +1,11 @@
-package com.github.theredbrain.shieldapi;
+package com.github.theredbrain.inventorysizeattributes;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
-public class ShieldAPIClient implements ClientModInitializer {
+public class InventorySizeAttributesClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
