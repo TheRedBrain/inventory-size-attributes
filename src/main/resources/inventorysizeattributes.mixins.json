@@ -5,7 +5,25 @@
 	"mixins": [
 		"entity.LivingEntityMixin",
 		"entity.attribute.EntityAttributesMixin",
-		"entity.player.PlayerEntityMixin"
+		"entity.player.PlayerEntityMixin",
+		"entity.player.PlayerInventoryMixin",
+		"screen.AbstractFurnaceScreenHandlerMixin",
+		"screen.BeaconScreenHandlerMixin",
+		"screen.BrewingStandScreenHandlerMixin",
+		"screen.CartographyTableScreenHandlerMixin",
+		"screen.CraftingScreenHandlerMixin",
+		"screen.EnchantmentScreenHandlerMixin",
+		"screen.ForgingScreenHandlerMixin",
+		"screen.Generic3x3ContainerScreenHandlerMixin",
+		"screen.GenericContainerScreenHandlerMixin",
+		"screen.GrindstoneScreenHandlerMixin",
+		"screen.HopperScreenHandlerMixin",
+		"screen.HorseScreenHandlerMixin",
+		"screen.LoomScreenHandlerMixin",
+		"screen.MerchantScreenHandlerMixin",
+		"screen.ScreenHandlerMixin",
+		"screen.ShulkerBoxScreenHandlerMixin",
+		"screen.StonecutterScreenHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

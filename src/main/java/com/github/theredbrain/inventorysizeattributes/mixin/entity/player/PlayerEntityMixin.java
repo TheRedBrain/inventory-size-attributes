@@ -2,6 +2,7 @@ package com.github.theredbrain.inventorysizeattributes.mixin.entity.player;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
+import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -9,9 +10,11 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,6 +27,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 	@Shadow public abstract PlayerInventory getInventory();
 
+	@Shadow @Final public PlayerScreenHandler playerScreenHandler;
 	@Unique
 	private static final TrackedData<Integer> OLD_HOTBAR_SLOT_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -44,19 +48,16 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	protected void inventorysizeattributes$initDataTracker(CallbackInfo ci) {
 		this.dataTracker.startTracking(OLD_HOTBAR_SLOT_AMOUNT, -1);
 		this.dataTracker.startTracking(OLD_INVENTORY_SLOT_AMOUNT, -1);
-
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	public void inventorysizeattributes$tick(CallbackInfo ci) {
-		if (!this.getWorld().isClient) {
-			this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
-		}
+		this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
 	}
 
 	@Override
 	public int inventorysizeattributes$getActiveHotbarSlotAmount() {
-		return Math.min(9, Math.max(0, Math.min(9, Math.max(0, InventorySizeAttributes.serverConfig.default_hotbar_slot_amount)) + this.inventorysizeattributes$getHotbarSlotAmount()));
+		return Math.min(9, Math.max(0, (Math.min(9, Math.max(0, InventorySizeAttributes.serverConfig.default_hotbar_slot_amount)) + this.inventorysizeattributes$getHotbarSlotAmount())));
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 	@Override
 	public int inventorysizeattributes$getActiveInventorySlotAmount() {
-		return Math.min(27, Math.max(0, Math.min(27, Math.max(0, InventorySizeAttributes.serverConfig.default_inventory_slot_amount)) + this.inventorysizeattributes$getInventorySlotAmount()));
+		return Math.min(27, Math.max(0, (Math.min(27, Math.max(0, InventorySizeAttributes.serverConfig.default_inventory_slot_amount)) + this.inventorysizeattributes$getInventorySlotAmount())));
 	}
 
 	@Override
@@ -111,12 +112,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 		if (this.shouldCheckForItemsInInactiveHotbarSlots) {
-			for (int j = hotbar_slot_amount; j < 9; j++) {
-				PlayerInventory playerInventory = this.getInventory();
+			for (int i = 36; i < 45; i++) {
+				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + hotbar_slot_amount);
+			}
+			if (!this.getWorld().isClient) {
+				for (int j = hotbar_slot_amount; j < 9; j++) {
+					PlayerInventory playerInventory = this.getInventory();
 
-				if (!playerInventory.getStack(j).isEmpty()) {
-					playerInventory.offerOrDrop(playerInventory.removeStack(j));
-					bl = true;
+					if (!playerInventory.getStack(j).isEmpty()) {
+						playerInventory.offerOrDrop(playerInventory.removeStack(j));
+						bl = true;
+					}
 				}
 			}
 			this.shouldCheckForItemsInInactiveHotbarSlots = false;
@@ -124,12 +130,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 		if (this.shouldCheckForItemsInInactiveInventorySlots) {
-			for (int j = 9 + inventory_slot_amount; j < 36; j++) {
-				PlayerInventory playerInventory = this.getInventory();
+			for (int i = 9; i < 36; i++) {
+				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + inventory_slot_amount);
+			}
+			if (!this.getWorld().isClient) {
+				for (int j = 9 + inventory_slot_amount; j < 36; j++) {
+					PlayerInventory playerInventory = this.getInventory();
 
-				if (!playerInventory.getStack(j).isEmpty()) {
-					playerInventory.offerOrDrop(playerInventory.removeStack(j));
-					bl = true;
+					if (!playerInventory.getStack(j).isEmpty()) {
+						playerInventory.offerOrDrop(playerInventory.removeStack(j));
+						bl = true;
+					}
 				}
 			}
 			this.shouldCheckForItemsInInactiveInventorySlots = false;
