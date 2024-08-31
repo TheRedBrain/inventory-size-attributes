@@ -37,10 +37,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	// double-checking seems to be necessary because the attribute seems to be set after the check sometimes
 	// could also be a sync issue
 	@Unique
-	private int shouldCheckForItemsInInactiveHotbarSlots = 2;
+	private int shouldCheckForItemsInInactiveHotbarSlots = 5;
 
 	@Unique
-	private int shouldCheckForItemsInInactiveInventorySlots = 2;
+	private int shouldCheckForItemsInInactiveInventorySlots = 5;
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
@@ -113,12 +113,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	private void inventorysizeattributes$ejectItemsFromInactiveInventorySlots() {
 		int hotbar_slot_amount = inventorysizeattributes$getActiveHotbarSlotAmount();
 		if (this.inventorysizeattributes$getOldHotbarSlotAmount() != hotbar_slot_amount) {
-			this.shouldCheckForItemsInInactiveHotbarSlots = 2;
+			this.shouldCheckForItemsInInactiveHotbarSlots = 5;
 			this.inventorysizeattributes$setOldHotbarSlotAmount(hotbar_slot_amount);
 		}
 		int inventory_slot_amount = inventorysizeattributes$getActiveInventorySlotAmount();
 		if (this.inventorysizeattributes$getOldInventorySlotAmount() != inventory_slot_amount) {
-			this.shouldCheckForItemsInInactiveInventorySlots = 2;
+			this.shouldCheckForItemsInInactiveInventorySlots = 5;
 			this.inventorysizeattributes$setOldInventorySlotAmount(inventory_slot_amount);
 		}
 
