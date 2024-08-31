@@ -57,6 +57,18 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 		this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
 	}
 
+	@Inject(method = "closeHandledScreen", at = @At("TAIL"))
+	protected void inventorysizeattributes$closeHandledScreen(CallbackInfo ci) {
+		this.shouldCheckForItemsInInactiveHotbarSlots = 2;
+		this.shouldCheckForItemsInInactiveInventorySlots = 2;
+	}
+
+	@Inject(method = "onHandledScreenClosed", at = @At("TAIL"))
+	protected void inventorysizeattributes$onHandledScreenClosed(CallbackInfo ci) {
+		this.shouldCheckForItemsInInactiveHotbarSlots = 2;
+		this.shouldCheckForItemsInInactiveInventorySlots = 2;
+	}
+
 	@Override
 	public int inventorysizeattributes$getActiveHotbarSlotAmount() {
 		return Math.min(9, Math.max(0, (Math.min(9, Math.max(0, InventorySizeAttributes.serverConfig.default_hotbar_slot_amount)) + this.inventorysizeattributes$getHotbarSlotAmount())));
@@ -114,7 +126,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 		if (this.shouldCheckForItemsInInactiveHotbarSlots > 0) {
-			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveHotbarSlots > 0");
 			for (int i = 36; i < 45; i++) {
 				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + hotbar_slot_amount);
 			}
@@ -133,7 +144,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 		if (this.shouldCheckForItemsInInactiveInventorySlots > 0) {
-			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveInventorySlots > 0");
 			for (int i = 9; i < 36; i++) {
 				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + inventory_slot_amount);
 			}

@@ -1,38 +1,20 @@
-# Shield API
+# Inventory Size Attributes
 
-Shield API allows mod authors to easily add shields with custom models. 
+This mod adds two new entity attributes, which control how many inventory and hotbar slots are active.
 
-## Installation
+## Configuration
 
-Add this mod as dependency for your project.
+The values "default_hotbar_slot_amount" and "default_inventory_slot_amount" in the server config file control the amount of hotbar and inventory slots each player has by default.
 
-build.gradle
-```groovy
-repositories {
-    maven {
-        name = 'Modrinth'
-        url = 'https://api.modrinth.com/maven'
-        content {
-            includeGroup 'maven.modrinth'
-        }
-    }
-}
+The entity attributes "generic.hotbar_slot_amount" and "generic.inventory_slot_amount" control how many slots are added to/removed from the default amount. This is 0 by default, but with entity attribute modifiers (EAMs) it can be changed.
 
-dependencies {
-    modImplementation "maven.modrinth:shield-api:${project.shield_api_version}"
-}
-```
+## "What happens to items on my hotbar/in my inventory when they become smaller?"
+When an hotbar or inventory slot contains an item and becomes inactive, that item is moved to an active inventory slot or dropped at the players location, when the inventory is full. This is announced to the player via a chat message.
 
-gradle.properties
-```
-# replace with latest version
-shield_api_version=1.0.0
-```
+## Mod Compatibility
+Items that are placed in inactive slots (possible when a modded screen is not hiding inactive inventory slots), are moved to active slots or dropped on the ground when the inventory is full. This is announced to the player via a chat message.
 
-## Usage
+### Adding support for inactive inventory slots in modded screens
+Mods that show the player inventory in custom screens can depend on this mod to hide inactive inventory slots.
 
-- Create your item instance by calling the constructor for the CustomShieldItem.
-- Register your item instance.
-- Add model and texture files (e.g. using BlockBench).
-
-A simple example can be found on [GitHub](https://github.com/TheRedBrain/shield-api/blob/main/src/testmod/java/com/github/theredbrain/shieldapitest/ShieldAPITest.java).
+Examples can be found in this mods [source code](https://github.com/TheRedBrain/inventory-size-attributes/tree/1.21.1/src/main/java/com/github/theredbrain/inventorysizeattributes/mixin/screen).
