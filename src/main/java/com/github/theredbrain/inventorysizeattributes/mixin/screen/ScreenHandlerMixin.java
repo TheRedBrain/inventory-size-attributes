@@ -42,7 +42,7 @@ public abstract class ScreenHandlerMixin {
 
 				slot = (Slot) this.slots.get(i);
 				itemStack = slot.getStack();
-				if (!itemStack.isEmpty() && ItemStack.canCombine(stack, itemStack) && slot.isEnabled()) {
+				if (!itemStack.isEmpty() && ItemStack.areItemsAndComponentsEqual(stack, itemStack) && slot.isEnabled()) {
 					int j = itemStack.getCount() + stack.getCount();
 					if (j <= stack.getMaxCount()) {
 						stack.setCount(0);

@@ -45,9 +45,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	}
 
 	@Inject(method = "initDataTracker", at = @At("RETURN"))
-	protected void inventorysizeattributes$initDataTracker(CallbackInfo ci) {
-		this.dataTracker.startTracking(OLD_HOTBAR_SLOT_AMOUNT, -1);
-		this.dataTracker.startTracking(OLD_INVENTORY_SLOT_AMOUNT, -1);
+	protected void inventorysizeattributes$initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
+		builder.add(OLD_HOTBAR_SLOT_AMOUNT, -1);
+		builder.add(OLD_INVENTORY_SLOT_AMOUNT, -1);
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))
@@ -112,6 +112,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 		if (this.shouldCheckForItemsInInactiveHotbarSlots) {
+			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveHotbarSlots");
 			for (int i = 36; i < 45; i++) {
 				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + hotbar_slot_amount);
 			}
@@ -130,6 +131,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 		if (this.shouldCheckForItemsInInactiveInventorySlots) {
+			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveInventorySlots");
 			for (int i = 9; i < 36; i++) {
 				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + inventory_slot_amount);
 			}

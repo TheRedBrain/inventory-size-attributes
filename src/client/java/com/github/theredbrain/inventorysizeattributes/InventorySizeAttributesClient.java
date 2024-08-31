@@ -9,8 +9,8 @@ public class InventorySizeAttributesClient implements ClientModInitializer {
 	public void onInitializeClient() {
 
 		// Packets
-		ClientPlayNetworking.registerGlobalReceiver(InventorySizeAttributes.ServerConfigSync.ID, (client, handler, buf, responseSender) -> {
-			InventorySizeAttributes.serverConfig = InventorySizeAttributes.ServerConfigSync.read(buf);
+		ClientPlayNetworking.registerGlobalReceiver(InventorySizeAttributes.ServerConfigSyncPacket.PACKET_ID, (payload, context) -> {
+			InventorySizeAttributes.serverConfig = payload.serverConfig();
 		});
 	}
 }

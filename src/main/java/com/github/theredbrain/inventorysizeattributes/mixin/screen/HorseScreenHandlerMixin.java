@@ -20,7 +20,7 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	public void HorseScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, AbstractHorseEntity entity, CallbackInfo ci) {
+	public void HorseScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, AbstractHorseEntity entity, int slotColumnCount, CallbackInfo ci) {
 		int startIndex = this.slots.size() - 36;
 		for (int i = startIndex + 27; i < startIndex + 36; i++) {
 			((SlotCustomization) this.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= startIndex + 27 + ((DuckPlayerEntityMixin) playerInventory.player).inventorysizeattributes$getActiveHotbarSlotAmount());

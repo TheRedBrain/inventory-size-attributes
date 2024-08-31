@@ -31,7 +31,7 @@ public abstract class PlayerInventoryMixin {
 	@Overwrite
 	public int getEmptySlot() {
 		for(int i = 0; i < this.main.size(); ++i) {
-			if (((ItemStack)this.main.get(i)).isEmpty() && this.isIndexInsideActiveInventorySize(i)) {
+			if (((ItemStack)this.main.get(i)).isEmpty() && this.inventorysizeattributes$isIndexInsideActiveInventorySize(i)) {
 				return i;
 			}
 		}
@@ -51,7 +51,7 @@ public abstract class PlayerInventoryMixin {
 			return 40;
 		} else {
 			for(int i = 0; i < this.main.size(); ++i) {
-				if (this.canStackAddMore((ItemStack)this.main.get(i), stack) && this.isIndexInsideActiveInventorySize(i)) {
+				if (this.canStackAddMore((ItemStack)this.main.get(i), stack) && this.inventorysizeattributes$isIndexInsideActiveInventorySize(i)) {
 					return i;
 				}
 			}
@@ -61,7 +61,7 @@ public abstract class PlayerInventoryMixin {
 	}
 
 	@Unique
-	private boolean isIndexInsideActiveInventorySize(int index) {
+	private boolean inventorysizeattributes$isIndexInsideActiveInventorySize(int index) {
 		return (index < 9 && index < ((DuckPlayerEntityMixin) this.player).inventorysizeattributes$getActiveHotbarSlotAmount()) || (index >= 9 && (index - 9) < ((DuckPlayerEntityMixin) this.player).inventorysizeattributes$getActiveInventorySlotAmount());
 	}
 }
