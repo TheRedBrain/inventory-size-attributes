@@ -34,11 +34,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	@Unique
 	private static final TrackedData<Integer> OLD_INVENTORY_SLOT_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
+	// double-checking seems to be necessary because the attribute seems to be set after the check sometimes
+	// could also be a sync issue
 	@Unique
-	private boolean shouldCheckForItemsInInactiveHotbarSlots = true;
+	private int shouldCheckForItemsInInactiveHotbarSlots = 2;
 
 	@Unique
-	private boolean shouldCheckForItemsInInactiveInventorySlots = true;
+	private int shouldCheckForItemsInInactiveInventorySlots = 2;
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
@@ -99,20 +101,20 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	private void inventorysizeattributes$ejectItemsFromInactiveInventorySlots() {
 		int hotbar_slot_amount = inventorysizeattributes$getActiveHotbarSlotAmount();
 		if (this.inventorysizeattributes$getOldHotbarSlotAmount() != hotbar_slot_amount) {
-			this.shouldCheckForItemsInInactiveHotbarSlots = true;
+			this.shouldCheckForItemsInInactiveHotbarSlots = 2;
 			this.inventorysizeattributes$setOldHotbarSlotAmount(hotbar_slot_amount);
 		}
 		int inventory_slot_amount = inventorysizeattributes$getActiveInventorySlotAmount();
 		if (this.inventorysizeattributes$getOldInventorySlotAmount() != inventory_slot_amount) {
-			this.shouldCheckForItemsInInactiveInventorySlots = true;
+			this.shouldCheckForItemsInInactiveInventorySlots = 2;
 			this.inventorysizeattributes$setOldInventorySlotAmount(inventory_slot_amount);
 		}
 
 		boolean bl = false;
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
-		if (this.shouldCheckForItemsInInactiveHotbarSlots) {
-			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveHotbarSlots");
+		if (this.shouldCheckForItemsInInactiveHotbarSlots > 0) {
+			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveHotbarSlots > 0");
 			for (int i = 36; i < 45; i++) {
 				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + hotbar_slot_amount);
 			}
@@ -126,12 +128,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 					}
 				}
 			}
-			this.shouldCheckForItemsInInactiveHotbarSlots = false;
+			this.shouldCheckForItemsInInactiveHotbarSlots--;
 		}
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
-		if (this.shouldCheckForItemsInInactiveInventorySlots) {
-			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveInventorySlots");
+		if (this.shouldCheckForItemsInInactiveInventorySlots > 0) {
+			InventorySizeAttributes.LOGGER.info("shouldCheckForItemsInInactiveInventorySlots > 0");
 			for (int i = 9; i < 36; i++) {
 				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + inventory_slot_amount);
 			}
@@ -145,7 +147,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 					}
 				}
 			}
-			this.shouldCheckForItemsInInactiveInventorySlots = false;
+			this.shouldCheckForItemsInInactiveInventorySlots--;
 		}
 
 		if (bl && ((PlayerEntity) (Object) this) instanceof ServerPlayerEntity serverPlayerEntity) {
