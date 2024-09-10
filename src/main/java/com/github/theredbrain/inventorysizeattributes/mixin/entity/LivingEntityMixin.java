@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 
-    @Inject(method = "createLivingAttributes", at = @At("RETURN"))
-    private static void inventorysizeattributes$createLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
-        cir.getReturnValue()
-                .add(InventorySizeAttributes.HOTBAR_SLOT_AMOUNT)
-                .add(InventorySizeAttributes.INVENTORY_SLOT_AMOUNT)
-        ;
-    }
+	@Inject(method = "createLivingAttributes", at = @At("RETURN"))
+	private static void inventorysizeattributes$createLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
+		cir.getReturnValue()
+				.add(InventorySizeAttributes.HOTBAR_SLOT_AMOUNT)
+				.add(InventorySizeAttributes.INVENTORY_SLOT_AMOUNT)
+		;
+	}
 }

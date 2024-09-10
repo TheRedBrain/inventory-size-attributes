@@ -25,9 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlayerEntityMixin {
 
-	@Shadow public abstract PlayerInventory getInventory();
+	@Shadow
+	public abstract PlayerInventory getInventory();
 
-	@Shadow @Final public PlayerScreenHandler playerScreenHandler;
+	@Shadow
+	@Final
+	public PlayerScreenHandler playerScreenHandler;
 	@Unique
 	private static final TrackedData<Integer> OLD_HOTBAR_SLOT_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
