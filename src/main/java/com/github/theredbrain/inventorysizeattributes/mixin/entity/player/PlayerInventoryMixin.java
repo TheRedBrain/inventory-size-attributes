@@ -1,63 +1,46 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.entity.player;
 
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(PlayerInventory.class)
 public abstract class PlayerInventoryMixin {
 
-	@Shadow @Final public DefaultedList<ItemStack> main;
+	@Shadow
+	@Final
+	public PlayerEntity player;
 
-	@Shadow @Final public PlayerEntity player;
-
-	@Shadow public int selectedSlot;
-
-	@Shadow public abstract ItemStack getStack(int slot);
-
-	@Shadow protected abstract boolean canStackAddMore(ItemStack existingStack, ItemStack stack);
-
-	/**
-	 * @author TheRedBrain
-	 * @reason WIP
-	 */
-	@Overwrite
-	public int getEmptySlot() {
-		for(int i = 0; i < this.main.size(); ++i) {
-			if (((ItemStack)this.main.get(i)).isEmpty() && this.inventorysizeattributes$isIndexInsideActiveInventorySize(i)) {
-				return i;
-			}
-		}
-
-		return -1;
+	@WrapOperation(
+			method = "getEmptySlot",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/item/ItemStack;isEmpty()Z"
+			)
+	)
+	public boolean inventorysizeattributes$wrap_isEmpty(ItemStack instance, Operation<Boolean> original, @Local int i) {
+		return original.call(instance) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
 	}
 
-	/**
-	 * @author TheRedBrain
-	 * @reason WIP
-	 */
-	@Overwrite
-	public int getOccupiedSlotWithRoomForStack(ItemStack stack) {
-		if (this.canStackAddMore(this.getStack(this.selectedSlot), stack)) {
-			return this.selectedSlot;
-		} else if (this.canStackAddMore(this.getStack(40), stack)) {
-			return 40;
-		} else {
-			for(int i = 0; i < this.main.size(); ++i) {
-				if (this.canStackAddMore((ItemStack)this.main.get(i), stack) && this.inventorysizeattributes$isIndexInsideActiveInventorySize(i)) {
-					return i;
-				}
-			}
-
-			return -1;
-		}
+	@WrapOperation(
+			method = "getOccupiedSlotWithRoomForStack",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/entity/player/PlayerInventory;canStackAddMore(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z",
+					ordinal = 2
+			)
+	)
+	private boolean inventorysizeattributes$wrap_canStackAddMore(PlayerInventory instance, ItemStack existingStack, ItemStack stack, Operation<Boolean> original, @Local int i) {
+		return original.call(instance, existingStack, stack) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
 	}
 
 	@Unique
