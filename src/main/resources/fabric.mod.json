@@ -27,11 +27,16 @@
 			"environment": "client"
 		}
 	],
+	"custom": {
+		"fzzy_config": [
+			"inventorysizeattributes"
+		]
+	},
 	"depends": {
 		"minecraft": "${minecraft_version}",
 		"fabricloader": ">=${loader_version}",
 		"fabric-api": "*",
 		"slotcustomizationapi": "${slot_customization_api_version}",
-		"cloth-config": ">=${cloth_config_version}"
+		"fzzy_config": ">=${fzzy_config_version}"
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -21,6 +22,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.OptionalInt;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlayerEntityMixin {
@@ -60,21 +64,27 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 		this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
 	}
 
+	@Inject(method = "openHandledScreen", at = @At("TAIL"))
+	protected void inventorysizeattributes$openHandledScreen(NamedScreenHandlerFactory factory, CallbackInfoReturnable<OptionalInt> cir) {
+		this.inventorysizeattributes$setOldHotbarSlotAmount(-1);
+		this.inventorysizeattributes$setOldInventorySlotAmount(-1);
+	}
+
 	@Inject(method = "closeHandledScreen", at = @At("TAIL"))
 	protected void inventorysizeattributes$closeHandledScreen(CallbackInfo ci) {
-		this.shouldCheckForItemsInInactiveHotbarSlots = 2;
-		this.shouldCheckForItemsInInactiveInventorySlots = 2;
+		this.inventorysizeattributes$setOldHotbarSlotAmount(-1);
+		this.inventorysizeattributes$setOldInventorySlotAmount(-1);
 	}
 
 	@Inject(method = "onHandledScreenClosed", at = @At("TAIL"))
 	protected void inventorysizeattributes$onHandledScreenClosed(CallbackInfo ci) {
-		this.shouldCheckForItemsInInactiveHotbarSlots = 2;
-		this.shouldCheckForItemsInInactiveInventorySlots = 2;
+		this.inventorysizeattributes$setOldHotbarSlotAmount(-1);
+		this.inventorysizeattributes$setOldInventorySlotAmount(-1);
 	}
 
 	@Override
 	public int inventorysizeattributes$getActiveHotbarSlotAmount() {
-		return Math.min(9, Math.max(0, (Math.min(9, Math.max(0, InventorySizeAttributes.serverConfig.default_hotbar_slot_amount)) + this.inventorysizeattributes$getHotbarSlotAmount())));
+		return Math.min(9, Math.max(0, (Math.min(9, Math.max(0, InventorySizeAttributes.SERVER_CONFIG.default_hotbar_slot_amount.get())) + this.inventorysizeattributes$getHotbarSlotAmount())));
 	}
 
 	@Override
@@ -94,7 +104,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 	@Override
 	public int inventorysizeattributes$getActiveInventorySlotAmount() {
-		return Math.min(27, Math.max(0, (Math.min(27, Math.max(0, InventorySizeAttributes.serverConfig.default_inventory_slot_amount)) + this.inventorysizeattributes$getInventorySlotAmount())));
+		return Math.min(27, Math.max(0, (Math.min(27, Math.max(0, InventorySizeAttributes.SERVER_CONFIG.default_inventory_slot_amount.get())) + this.inventorysizeattributes$getInventorySlotAmount())));
 	}
 
 	@Override

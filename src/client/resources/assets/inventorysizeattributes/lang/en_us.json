@@ -1,0 +1,11 @@
+{
+	"attribute.name.generic.hotbar_slot_amount": "Hotbar Slot Amount",
+	"attribute.name.generic.inventory_slot_amount": "Inventory Slot Amount",
+
+	"staminaattributes.server": "Server Side Settings",
+
+	"staminaattributes.server.default_hotbar_slot_amount": "Default Hotbar Slot Amount",
+	"staminaattributes.server.default_inventory_slot_amount": "Default Inventory Slot Amount",
+
+	"hud.message.itemRemovedFromInactiveInventorySlots": "Your inventory or hotbar got smaller and some items were transferred to active inventory slots. If your inventory was full, they were dropped at your location."
+}

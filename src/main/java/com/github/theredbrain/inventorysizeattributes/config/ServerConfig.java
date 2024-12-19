@@ -1,24 +1,18 @@
 package com.github.theredbrain.inventorysizeattributes.config;
 
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
+import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
+import me.fzzyhmstrs.fzzy_config.annotations.ConvertFrom;
+import me.fzzyhmstrs.fzzy_config.config.Config;
+import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Config(
-		name = "server"
-)
-public class ServerConfig implements ConfigData {
-	@Comment("""
-			The default amount of hotbar slots.
-			Must be between 0 and 9 (both inclusive)
-			""")
-	public int default_hotbar_slot_amount = 9;
-	@Comment("""
-			The default amount of inventory slots.
-			Must be between 0 and 27 (both inclusive)
-			""")
-	public int default_inventory_slot_amount = 27;
+@ConvertFrom(fileName = "server.json5", folder = "inventorysizeattributes")
+public class ServerConfig extends Config {
 
 	public ServerConfig() {
+		super(InventorySizeAttributes.identifier("server"));
 	}
+
+	public ValidatedInt default_hotbar_slot_amount = new ValidatedInt(9, 9, 0);
+	public ValidatedInt default_inventory_slot_amount = new ValidatedInt(27, 27, 0);
+
 }

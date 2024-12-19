@@ -21,9 +21,11 @@
 		"screen.HorseScreenHandlerMixin",
 		"screen.LoomScreenHandlerMixin",
 		"screen.MerchantScreenHandlerMixin",
+		"screen.PlayerScreenHandlerMixin",
 		"screen.ScreenHandlerMixin",
 		"screen.ShulkerBoxScreenHandlerMixin",
-		"screen.StonecutterScreenHandlerMixin"
+		"screen.StonecutterScreenHandlerMixin",
+		"server.network.ServerPlayerEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
