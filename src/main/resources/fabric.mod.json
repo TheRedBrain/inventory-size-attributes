@@ -11,6 +11,7 @@
 		"sources": "https://github.com/TheRedBrain/inventory-size-attributes"
 	},
 	"license": "MIT",
+	"icon": "assets/inventorysizeattributes/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
