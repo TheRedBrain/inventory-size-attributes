@@ -1,3 +1,9 @@
+# 1.2.0
+
+- inactive hotbar slots are no longer selectable in the ingame HUD
+- added client config option to hide inactive inventory slots in all vanilla screens
+- fixed crafter and shulker box screens not disabling inactive slots
+
 # 1.1.0
 
 - removed dependency on cloth config

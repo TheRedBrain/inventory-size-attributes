@@ -1,11 +1,35 @@
 {
-	"required": true,
-	"package": "com.github.theredbrain.inventorysizeattributes.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"gui.screen.ingame.CreativeScreenHandlerMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "com.github.theredbrain.inventorysizeattributes.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "gui.screen.ingame.AbstractFurnaceScreenMixin",
+    "gui.screen.ingame.AnvilScreenMixin",
+    "gui.screen.ingame.BeaconScreenMixin",
+    "gui.screen.ingame.BlastFurnaceScreenMixin",
+    "gui.screen.ingame.BrewingStandScreenMixin",
+    "gui.screen.ingame.CartographyTableScreenMixin",
+    "gui.screen.ingame.CrafterScreenMixin",
+    "gui.screen.ingame.CraftingScreenMixin",
+    "gui.screen.ingame.CreativeInventoryScreenMixin",
+    "gui.screen.ingame.CreativeScreenHandlerMixin",
+    "gui.screen.ingame.EnchantmentScreenMixin",
+    "gui.screen.ingame.ForgingScreenMixin",
+    "gui.screen.ingame.FurnaceScreenMixin",
+    "gui.screen.ingame.Generic3x3ContainerScreenMixin",
+    "gui.screen.ingame.GenericContainerScreenMixin",
+    "gui.screen.ingame.GrindstoneScreenMixin",
+    "gui.screen.ingame.HopperScreenMixin",
+    "gui.screen.ingame.HorseScreenMixin",
+    "gui.screen.ingame.InventoryScreenMixin",
+    "gui.screen.ingame.LoomScreenMixin",
+    "gui.screen.ingame.MerchantScreenMixin",
+    "gui.screen.ingame.ShulkerBoxScreenMixin",
+    "gui.screen.ingame.SmithingScreenMixin",
+    "gui.screen.ingame.SmokerScreenMixin",
+    "gui.screen.ingame.StonecutterScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

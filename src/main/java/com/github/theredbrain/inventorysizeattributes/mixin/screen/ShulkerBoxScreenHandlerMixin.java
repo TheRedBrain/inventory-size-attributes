@@ -20,11 +20,11 @@ public abstract class ShulkerBoxScreenHandlerMixin extends ScreenHandler {
 
 	@Inject(method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/inventory/Inventory;)V", at = @At("TAIL"))
 	public void ShulkerBoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, CallbackInfo ci) {
-		for (int i = 36; i < 45; i++) {
-			((SlotCustomization) this.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + ((DuckPlayerEntityMixin) playerInventory.player).inventorysizeattributes$getActiveHotbarSlotAmount());
+		for (int i = 27; i < 54; i++) {
+			((SlotCustomization) this.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 27 + ((DuckPlayerEntityMixin) playerInventory.player).inventorysizeattributes$getActiveHotbarSlotAmount());
 		}
-		for (int i = 9; i < 36; i++) {
-			((SlotCustomization) this.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + ((DuckPlayerEntityMixin) playerInventory.player).inventorysizeattributes$getActiveInventorySlotAmount());
+		for (int i = 54; i < 63; i++) {
+			((SlotCustomization) this.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 54 + ((DuckPlayerEntityMixin) playerInventory.player).inventorysizeattributes$getActiveInventorySlotAmount());
 		}
 	}
 }
