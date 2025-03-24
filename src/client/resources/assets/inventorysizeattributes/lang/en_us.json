@@ -2,6 +2,10 @@
 	"attribute.name.generic.hotbar_slot_amount": "Hotbar Slot Amount",
 	"attribute.name.generic.inventory_slot_amount": "Inventory Slot Amount",
 
+	"staminaattributes.client": "Client Side Settings",
+
+	"staminaattributes.client.show_inactive_inventory_slots": "Show Inactive Inventory Slots",
+
 	"staminaattributes.server": "Server Side Settings",
 
 	"staminaattributes.server.default_hotbar_slot_amount": "Default Hotbar Slot Amount",
