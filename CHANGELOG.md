@@ -1,3 +1,7 @@
+# 1.2.1
+
+- added support for latest Slot Customization API version
+
 # 1.2.0
 
 - inactive hotbar slots are no longer selectable in the ingame HUD
