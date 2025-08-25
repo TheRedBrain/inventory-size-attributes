@@ -1,8 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes;
 
-import com.github.theredbrain.inventorysizeattributes.config.ServerConfig;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
-import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
+import com.github.theredbrain.inventorysizeattributes.registry.GameRulesRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,22 +14,23 @@ import org.slf4j.LoggerFactory;
 public class InventorySizeAttributes implements ModInitializer {
 	public static final String MOD_ID = "inventorysizeattributes";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static ServerConfig SERVER_CONFIG = ConfigApiJava.registerAndLoadConfig(ServerConfig::new);
 
 	public static RegistryEntry<EntityAttribute> HOTBAR_SLOT_AMOUNT;
 	public static RegistryEntry<EntityAttribute> INVENTORY_SLOT_AMOUNT;
 
 	public static int getActiveHotbarSlotAmount(PlayerEntity playerEntity) {
-		return Math.min(9, Math.max(0, (Math.min(9, Math.max(0, InventorySizeAttributes.SERVER_CONFIG.default_hotbar_slot_amount.get())) + ((DuckPlayerEntityMixin)playerEntity).inventorysizeattributes$getHotbarSlotAmount())));
+		return ((DuckPlayerEntityMixin) playerEntity).inventorysizeattributes$getActiveHotbarSlotAmount();
 	}
 
 	public static int getActiveInventorySlotAmount(PlayerEntity playerEntity) {
-		return Math.min(27, Math.max(0, (Math.min(27, Math.max(0, InventorySizeAttributes.SERVER_CONFIG.default_inventory_slot_amount.get())) + ((DuckPlayerEntityMixin)playerEntity).inventorysizeattributes$getInventorySlotAmount())));
+		return ((DuckPlayerEntityMixin) playerEntity).inventorysizeattributes$getActiveInventorySlotAmount();
 	}
 
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Inventories come in different sizes now!");
+
+		GameRulesRegistry.init();
 	}
 
 	public static Identifier identifier(String path) {

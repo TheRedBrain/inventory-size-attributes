@@ -2,14 +2,19 @@ package com.github.theredbrain.inventorysizeattributes.mixin.entity.player;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
+import com.github.theredbrain.inventorysizeattributes.registry.GameRulesRegistry;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
+import com.google.common.collect.HashMultimap;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -61,6 +66,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	public void inventorysizeattributes$tick(CallbackInfo ci) {
+		this.getAttributes().addTemporaryModifiers(getNaturalAttributeModifiers(this.getWorld()));
 		this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
 	}
 
@@ -84,7 +90,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 	@Override
 	public int inventorysizeattributes$getActiveHotbarSlotAmount() {
-		return Math.min(9, Math.max(0, (Math.min(9, Math.max(0, InventorySizeAttributes.SERVER_CONFIG.default_hotbar_slot_amount.get())) + this.inventorysizeattributes$getHotbarSlotAmount())));
+		return Math.min(9, Math.max(0, this.inventorysizeattributes$getHotbarSlotAmount()));
 	}
 
 	@Override
@@ -104,7 +110,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 	@Override
 	public int inventorysizeattributes$getActiveInventorySlotAmount() {
-		return Math.min(27, Math.max(0, (Math.min(27, Math.max(0, InventorySizeAttributes.SERVER_CONFIG.default_inventory_slot_amount.get())) + this.inventorysizeattributes$getInventorySlotAmount())));
+		return Math.min(27, Math.max(0, this.inventorysizeattributes$getInventorySlotAmount()));
 	}
 
 	@Override
@@ -177,4 +183,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 			serverPlayerEntity.sendMessage(Text.translatable("hud.message.itemRemovedFromInactiveInventorySlots"), false);
 		}
 	}
+
+	@Unique
+	private HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getNaturalAttributeModifiers(World world) {
+		HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> hashMultimap = HashMultimap.create();
+		hashMultimap.put(InventorySizeAttributes.HOTBAR_SLOT_AMOUNT, new EntityAttributeModifier(InventorySizeAttributes.identifier("natural_hotbar_slot_amount_modifier"), world.getGameRules().get(GameRulesRegistry.NATURAL_HOTBAR_SIZE).get(), EntityAttributeModifier.Operation.ADD_VALUE));
+		hashMultimap.put(InventorySizeAttributes.INVENTORY_SLOT_AMOUNT, new EntityAttributeModifier(InventorySizeAttributes.identifier("natural_inventory_slot_amount_modifier"), world.getGameRules().get(GameRulesRegistry.NATURAL_INVENTORY_SIZE).get(), EntityAttributeModifier.Operation.ADD_VALUE));
+		return hashMultimap;
+	}
+
 }
