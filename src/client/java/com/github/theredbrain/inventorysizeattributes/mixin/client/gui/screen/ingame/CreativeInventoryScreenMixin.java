@@ -21,7 +21,8 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(CreativeInventoryScreen.class)
 public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScreen<CreativeInventoryScreen.CreativeScreenHandler> {
 
-	@Shadow private static ItemGroup selectedTab;
+	@Shadow
+	private static ItemGroup selectedTab;
 
 	@Unique
 	private static final Identifier SLOT_TEXTURE = Identifier.ofVanilla("textures/gui/sprites/container/slot.png");

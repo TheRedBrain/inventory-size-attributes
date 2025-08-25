@@ -7,7 +7,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -22,7 +21,8 @@ public abstract class PlayerInventoryMixin {
 	@Final
 	public PlayerEntity player;
 
-	@Shadow public int selectedSlot;
+	@Shadow
+	public int selectedSlot;
 
 	@WrapOperation(
 			method = "getEmptySlot",
@@ -53,7 +53,7 @@ public abstract class PlayerInventoryMixin {
 	 */
 	@Overwrite
 	public void scrollInHotbar(double scrollAmount) {
-		int i = (int)Math.signum(scrollAmount);
+		int i = (int) Math.signum(scrollAmount);
 		int hotbarSize = ((DuckPlayerEntityMixin) this.player).inventorysizeattributes$getActiveHotbarSlotAmount();
 		this.selectedSlot -= i;
 
