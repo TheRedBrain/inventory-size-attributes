@@ -5,15 +5,7 @@ public interface DuckPlayerEntityMixin {
 
 	int inventorysizeattributes$getHotbarSlotAmount();
 
-	int inventorysizeattributes$getOldHotbarSlotAmount();
-
-	void inventorysizeattributes$setOldHotbarSlotAmount(int hotbar_slot_amount);
-
 	int inventorysizeattributes$getActiveInventorySlotAmount();
 
 	int inventorysizeattributes$getInventorySlotAmount();
-
-	int inventorysizeattributes$getOldInventorySlotAmount();
-
-	void inventorysizeattributes$setOldInventorySlotAmount(int inventory_slot_amount);
 }
