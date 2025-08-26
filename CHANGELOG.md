@@ -1,3 +1,8 @@
+# 1.3.0
+
+- replaced the "default_hotbar_slot_amount" server config option with "naturalHotbarSize" game rule and adjusted the "generic.hotbar_slot_amount" entity attribute
+- replaced the "default_inventory_slot_amount" server config option with "naturalInventorySize" game rule and adjusted the "generic.inventory_slot_amount" entity attribute
+
 # 1.2.1
 
 - added support for latest Slot Customization API version
