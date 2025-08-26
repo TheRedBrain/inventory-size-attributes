@@ -1,5 +1,6 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
+import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ScreenHandler.class)
-public abstract class ScreenHandlerMixin {
+public abstract class ScreenHandlerMixin implements DuckScreenHandlerMixin {
 
 	@Shadow
 	@Final

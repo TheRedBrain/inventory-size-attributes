@@ -2,7 +2,6 @@ package com.github.theredbrain.inventorysizeattributes.mixin.client.gui.screen.i
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributesClient;
-import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.DrawContext;
@@ -36,8 +35,8 @@ public abstract class EnchantmentScreenMixin extends HandledScreen<EnchantmentSc
 			int inventorySize = 0;
 			int hotbarSize = 0;
 			if (this.client != null && this.client.player != null) {
-				hotbarSize = ((DuckPlayerEntityMixin) this.client.player).inventorysizeattributes$getActiveHotbarSlotAmount();
-				inventorySize = ((DuckPlayerEntityMixin) this.client.player).inventorysizeattributes$getActiveInventorySlotAmount();
+				hotbarSize = InventorySizeAttributes.getActiveHotbarSlotAmount(this.client.player);
+				inventorySize = InventorySizeAttributes.getActiveInventorySlotAmount(this.client.player);
 			}
 			for (int i = 0; i < (Math.min(inventorySize, 27)); ++i) {
 				int j = (i / 9);

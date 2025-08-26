@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.client.gui.screen.ingame;
 
+import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributesClient;
-import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
 import com.github.theredbrain.inventorysizeattributes.gui.screen.ingame.HasBackgroundWithNoSlots;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -9,7 +9,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,12 +17,12 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ForgingScreen.class)
-public abstract class ForgingScreenMixin extends HandledScreen implements HasBackgroundWithNoSlots {
+public abstract class ForgingScreenMixin<T extends ForgingScreenHandler> extends HandledScreen<T> implements HasBackgroundWithNoSlots {
 
 	@Unique
 	private static final Identifier SLOT_TEXTURE = Identifier.ofVanilla("textures/gui/sprites/container/slot.png");
 
-	public ForgingScreenMixin(ScreenHandler handler, PlayerInventory inventory, Text title) {
+	public ForgingScreenMixin(T handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);
 	}
 
@@ -36,8 +36,8 @@ public abstract class ForgingScreenMixin extends HandledScreen implements HasBac
 			int inventorySize = 0;
 			int hotbarSize = 0;
 			if (this.client != null && this.client.player != null) {
-				hotbarSize = ((DuckPlayerEntityMixin) this.client.player).inventorysizeattributes$getActiveHotbarSlotAmount();
-				inventorySize = ((DuckPlayerEntityMixin) this.client.player).inventorysizeattributes$getActiveInventorySlotAmount();
+				hotbarSize = InventorySizeAttributes.getActiveHotbarSlotAmount(this.client.player);
+				inventorySize = InventorySizeAttributes.getActiveInventorySlotAmount(this.client.player);
 			}
 			for (int i = 0; i < (Math.min(inventorySize, 27)); ++i) {
 				int j = (i / 9);

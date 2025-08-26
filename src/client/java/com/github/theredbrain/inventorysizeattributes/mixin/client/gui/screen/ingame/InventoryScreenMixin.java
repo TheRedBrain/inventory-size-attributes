@@ -2,7 +2,6 @@ package com.github.theredbrain.inventorysizeattributes.mixin.client.gui.screen.i
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributesClient;
-import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.DrawContext;
@@ -26,6 +25,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
 		super(screenHandler, playerInventory, text);
 	}
 
+
 	@WrapOperation(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
 	protected void inventorysizeattributes$drawBackground(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
 		if (InventorySizeAttributesClient.CLIENT_CONFIG.show_inactive_inventory_slots.get()) {
@@ -36,8 +36,8 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
 			int inventorySize = 0;
 			int hotbarSize = 0;
 			if (this.client != null && this.client.player != null) {
-				hotbarSize = ((DuckPlayerEntityMixin) this.client.player).inventorysizeattributes$getActiveHotbarSlotAmount();
-				inventorySize = ((DuckPlayerEntityMixin) this.client.player).inventorysizeattributes$getActiveInventorySlotAmount();
+				hotbarSize = InventorySizeAttributes.getActiveHotbarSlotAmount(this.client.player);
+				inventorySize = InventorySizeAttributes.getActiveInventorySlotAmount(this.client.player);
 			}
 			for (int i = 0; i < (Math.min(inventorySize, 27)); ++i) {
 				int j = (i / 9);

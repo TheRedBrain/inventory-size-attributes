@@ -3,20 +3,17 @@ package com.github.theredbrain.inventorysizeattributes.mixin.entity.player;
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
 import com.github.theredbrain.inventorysizeattributes.registry.GameRulesRegistry;
-import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
 import com.google.common.collect.HashMultimap;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -27,9 +24,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.OptionalInt;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlayerEntityMixin {
@@ -61,6 +55,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 //	@Unique
 //	private int shouldCheckForItemsInInactiveInventorySlots = 5;
 
+	@Shadow public ScreenHandler currentScreenHandler;
+
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
@@ -89,7 +85,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 //			this.inventorysizeattributes$setOldInventorySlotGameRule(inventory_size_game_rule);
 //		}
 		if (this.getWorld().getTime() % 20L == 10) {
-			this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
+			this.inventorysizeattributes$updateActiveInventorySlots();
+			if (!this.getWorld().isClient) {
+				this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
+			}
 		}
 	}
 
@@ -99,11 +98,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 //		this.inventorysizeattributes$setOldInventorySlotAmount(-1);
 //	}
 //
-//	@Inject(method = "closeHandledScreen", at = @At("TAIL"))
-//	protected void inventorysizeattributes$closeHandledScreen(CallbackInfo ci) {
-//		this.inventorysizeattributes$setOldHotbarSlotAmount(-1);
-//		this.inventorysizeattributes$setOldInventorySlotAmount(-1);
-//	}
+	@Inject(method = "closeHandledScreen", at = @At("TAIL"))
+	protected void inventorysizeattributes$closeHandledScreen(CallbackInfo ci) {
+		this.inventorysizeattributes$setOldHotbarSlotAmount(-1);
+		this.inventorysizeattributes$setOldInventorySlotAmount(-1);
+	}
 //
 //	@Inject(method = "onHandledScreenClosed", at = @At("TAIL"))
 //	protected void inventorysizeattributes$onHandledScreenClosed(CallbackInfo ci) {
@@ -172,7 +171,20 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 //	}
 
 	@Unique
+	private void inventorysizeattributes$updateActiveInventorySlots() {
+
+		PlayerEntity playerEntity = ((PlayerEntity) (Object) this);
+		if (this.currentScreenHandler instanceof DuckScreenHandlerMixin screenHandler) {
+			screenHandler.inventorysizeattributes$updateActiveHotbarSlots(playerEntity);
+			screenHandler.inventorysizeattributes$updateActiveInventorySlots(playerEntity);
+//			for (int i = 9; i < 36; i++) {
+//				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + inventory_slot_amount);
+		}
+	}
+
+	@Unique
 	private void inventorysizeattributes$ejectItemsFromInactiveInventorySlots() {
+		PlayerEntity playerEntity = ((PlayerEntity) (Object) this);
 		int hotbar_slot_amount = inventorysizeattributes$getActiveHotbarSlotAmount();
 //		if (this.inventorysizeattributes$getOldHotbarSlotAmount() != hotbar_slot_amount) {
 //			this.shouldCheckForItemsInInactiveHotbarSlots = 5;
@@ -188,9 +200,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 //		if (this.shouldCheckForItemsInInactiveHotbarSlots > 0) {
-			for (int i = 36; i < 45; i++) {
-				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + hotbar_slot_amount);
-			}
+//		if (this.currentScreenHandler instanceof DuckScreenHandlerMixin screenHandler) {
+////			for (int i = 36; i < 45; i++) {
+////				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 36 + hotbar_slot_amount);
+////			}
+//		}
 			if (!this.getWorld().isClient) {
 				for (int j = hotbar_slot_amount; j < 9; j++) {
 					PlayerInventory playerInventory = this.getInventory();
@@ -206,9 +220,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 
 		// use a separate boolean to guarantee a check on login to account for changes to the server config
 //		if (this.shouldCheckForItemsInInactiveInventorySlots > 0) {
-			for (int i = 9; i < 36; i++) {
-				((SlotCustomization) this.playerScreenHandler.slots.get(i)).slotcustomizationapi$setDisabledOverride(i >= 9 + inventory_slot_amount);
-			}
+
 			if (!this.getWorld().isClient) {
 				for (int j = 9 + inventory_slot_amount; j < 36; j++) {
 					PlayerInventory playerInventory = this.getInventory();
@@ -222,7 +234,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 //			this.shouldCheckForItemsInInactiveInventorySlots--;
 //		}
 
-		if (bl && ((PlayerEntity) (Object) this) instanceof ServerPlayerEntity serverPlayerEntity) {
+		if (bl && playerEntity instanceof ServerPlayerEntity serverPlayerEntity) {
 			serverPlayerEntity.sendMessage(Text.translatable("hud.message.itemRemovedFromInactiveInventorySlots"), false);
 		}
 	}
