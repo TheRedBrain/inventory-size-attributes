@@ -88,7 +88,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 //			this.inventorysizeattributes$setOldInventorySlotAmount(-1);
 //			this.inventorysizeattributes$setOldInventorySlotGameRule(inventory_size_game_rule);
 //		}
-		if (this.getWorld().getTime() % 20L == 0) {
+		if (this.getWorld().getTime() % 20L == 10) {
 			this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
 		}
 	}
