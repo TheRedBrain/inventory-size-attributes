@@ -6,11 +6,11 @@ This mod adds two new entity attributes, which control how many inventory and ho
 
 The entity attributes "generic.hotbar_slot_amount" and "generic.inventory_slot_amount" control how many slots are active.
 
-The "naturalHotbarSize" and "naturalInventorySize" game rules control the amount of hotbar and inventory slots each player has by default.
+The "natural_player_hotbar_size" and "natural_player_inventory_size" server config options control the amount of hotbar and inventory slots each player has by default.
 
 ## "What happens to items on my hotbar/in my inventory when those become smaller?"
 
-When an hotbar or inventory slot contains an item and becomes inactive, that item is moved to an active inventory slot or dropped at the players location, when the inventory is full. This is announced to the player via a chat message.
+When a hotbar or inventory slot contains an item and becomes inactive, that item is moved to an active inventory slot or dropped at the players location, when the inventory is full. This is announced to the player via a chat message.
 
 ## Mod Compatibility
 
