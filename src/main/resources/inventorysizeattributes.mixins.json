@@ -25,7 +25,8 @@
     "screen.PlayerScreenHandlerMixin",
     "screen.ScreenHandlerMixin",
     "screen.ShulkerBoxScreenHandlerMixin",
-    "screen.StonecutterScreenHandlerMixin"
+    "screen.StonecutterScreenHandlerMixin",
+    "server.network.ServerPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,9 +19,6 @@ public abstract class PlayerInventoryMixin {
 	@Shadow
 	@Final
 	public PlayerEntity player;
-
-	@Shadow
-	public int selectedSlot;
 
 	@WrapOperation(
 			method = "getEmptySlot",
@@ -45,25 +41,6 @@ public abstract class PlayerInventoryMixin {
 	)
 	private boolean inventorysizeattributes$wrap_canStackAddMore(PlayerInventory instance, ItemStack existingStack, ItemStack stack, Operation<Boolean> original, @Local int i) {
 		return original.call(instance, existingStack, stack) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
-	}
-
-	/**
-	 * @author TheRedBrain
-	 * @reason respect active hotbar size
-	 */
-	@Overwrite
-	public void scrollInHotbar(double scrollAmount) {
-		int i = (int) Math.signum(scrollAmount);
-		int hotbarSize = ((DuckPlayerEntityMixin) this.player).inventorysizeattributes$getActiveHotbarSlotAmount();
-		this.selectedSlot -= i;
-
-		while (this.selectedSlot < 0) {
-			this.selectedSlot += hotbarSize;
-		}
-
-		while (this.selectedSlot >= hotbarSize) {
-			this.selectedSlot -= hotbarSize;
-		}
 	}
 
 	@Unique

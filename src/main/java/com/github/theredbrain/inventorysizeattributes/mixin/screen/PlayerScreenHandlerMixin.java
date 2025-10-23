@@ -4,15 +4,13 @@ import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.recipe.CraftingRecipe;
-import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PlayerScreenHandler.class)
-public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandler<CraftingRecipeInput, CraftingRecipe> implements DuckScreenHandlerMixin {
+public abstract class PlayerScreenHandlerMixin extends AbstractRecipeScreenHandler implements DuckScreenHandlerMixin {
 
 	public PlayerScreenHandlerMixin(ScreenHandlerType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);

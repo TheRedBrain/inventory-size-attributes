@@ -1,15 +1,15 @@
 {
-	"attribute.name.generic.hotbar_slot_amount": "Hotbar Slot Amount",
-	"attribute.name.generic.inventory_slot_amount": "Inventory Slot Amount",
+	"attribute.name.hotbar_slot_amount": "Hotbar Slot Amount",
+	"attribute.name.inventory_slot_amount": "Inventory Slot Amount",
 
-	"staminaattributes.client": "Client Side Settings",
+	"inventorysizeattributes.client": "Client Side Settings",
 
-	"staminaattributes.client.show_inactive_inventory_slots": "Show Inactive Inventory Slots",
+	"inventorysizeattributes.client.show_inactive_inventory_slots": "Show Inactive Inventory Slots",
 
-	"staminaattributes.server": "Server Side Settings",
+	"inventorysizeattributes.server": "Server Side Settings",
 
-	"staminaattributes.server.default_hotbar_slot_amount": "Default Hotbar Slot Amount",
-	"staminaattributes.server.default_inventory_slot_amount": "Default Inventory Slot Amount",
+	"inventorysizeattributes.server.default_hotbar_slot_amount": "Default Hotbar Slot Amount",
+	"inventorysizeattributes.server.default_inventory_slot_amount": "Default Inventory Slot Amount",
 
 	"hud.message.itemRemovedFromInactiveInventorySlots": "Your inventory or hotbar got smaller and some items were transferred to active inventory slots. If your inventory was full, they were dropped at your location."
 }

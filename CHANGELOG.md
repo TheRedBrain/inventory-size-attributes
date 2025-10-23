@@ -1,3 +1,7 @@
+# 2.0.0
+
+- updated to 1.21.10
+
 # 1.3.0
 
 - replaced the "default_hotbar_slot_amount" server config option with "naturalHotbarSize" game rule and adjusted the "generic.hotbar_slot_amount" entity attribute

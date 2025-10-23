@@ -9,6 +9,7 @@ import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.slot.ForgingSlotsManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +24,7 @@ public abstract class ForgingScreenHandlerMixin extends ScreenHandler implements
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	public void ForgingScreenHandler(ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, CallbackInfo ci) {
+	public void ForgingScreenHandler(ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, ForgingSlotsManager forgingSlotsManager, CallbackInfo ci) {
 		this.inventorysizeattributes$updateActiveHotbarSlots(playerInventory.player);
 		this.inventorysizeattributes$updateActiveInventorySlots(playerInventory.player);
 	}

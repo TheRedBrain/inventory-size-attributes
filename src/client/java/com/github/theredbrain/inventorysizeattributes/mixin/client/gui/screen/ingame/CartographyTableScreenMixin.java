@@ -4,6 +4,7 @@ import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributesClient;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CartographyTableScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -25,12 +26,12 @@ public abstract class CartographyTableScreenMixin extends HandledScreen<Cartogra
 		super(handler, inventory, title);
 	}
 
-	@WrapOperation(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
-	protected void inventorysizeattributes$drawBackground(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+	@WrapOperation(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIFFIIII)V"))
+	protected void inventorysizeattributes$drawBackground(DrawContext instance, RenderPipeline pipeline, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
 		if (InventorySizeAttributesClient.CLIENT_CONFIG.show_inactive_inventory_slots.get()) {
-			original.call(instance, texture, x, y, u, v, width, height);
+			original.call(instance, pipeline, sprite, x, y, u, v, width, height, textureWidth, textureHeight);
 		} else {
-			instance.drawTexture(InventorySizeAttributes.identifier("textures/gui/container/cartography_table_no_slots.png"), x, y, u, v, width, height);
+			instance.drawTexture(pipeline, InventorySizeAttributes.identifier("textures/gui/container/cartography_table_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
 
 			int inventorySize = 0;
 			int hotbarSize = 0;
@@ -40,10 +41,10 @@ public abstract class CartographyTableScreenMixin extends HandledScreen<Cartogra
 			}
 			for (int i = 0; i < (Math.min(inventorySize, 27)); ++i) {
 				int j = (i / 9);
-				instance.drawTexture(SLOT_TEXTURE, x + 7 + (i - (j * 9)) * 18, y + 83 + (j * 18), 0, 0, 18, 18, 18, 18);
+				instance.drawTexture(pipeline, SLOT_TEXTURE, x + 7 + (i - (j * 9)) * 18, y + 83 + (j * 18), 0, 0, 18, 18, 18, 18);
 			}
 			for (int i = 0; i < (Math.min(hotbarSize, 9)); ++i) {
-				instance.drawTexture(SLOT_TEXTURE, x + 7 + i * 18, y + 141, 0, 0, 18, 18, 18, 18);
+				instance.drawTexture(pipeline, SLOT_TEXTURE, x + 7 + i * 18, y + 141, 0, 0, 18, 18, 18, 18);
 			}
 		}
 	}
