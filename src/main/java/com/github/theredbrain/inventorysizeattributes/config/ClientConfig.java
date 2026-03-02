@@ -11,5 +11,7 @@ public class ClientConfig extends Config {
 	}
 
 	public ValidatedBoolean show_inactive_inventory_slots = new ValidatedBoolean(false);
+	public ValidatedBoolean show_inactive_hotbar_slots = new ValidatedBoolean(false);
+	public ValidatedBoolean is_hotbar_centered = new ValidatedBoolean(true);
 
 }
