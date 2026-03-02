@@ -1,3 +1,17 @@
+# 2.1.0
+
+- updated to 1.21.11
+- migrated to Mojang Mappings
+
+## Additions
+
+- added client config option to hide inactive hotbar slots from the GUI
+- added client config option to center the hotbar slots in the GUI
+
+## Changes
+
+- disabled slots are now hidden by default (can be re-enabled in the client config)
+
 # 2.0.0
 
 - updated to 1.21.10
