@@ -10,6 +10,6 @@ public class ClientConfig extends Config {
 		super(InventorySizeAttributes.identifier("client"));
 	}
 
-	public ValidatedBoolean show_inactive_inventory_slots = new ValidatedBoolean(true);
+	public ValidatedBoolean show_inactive_inventory_slots = new ValidatedBoolean(false);
 
 }
