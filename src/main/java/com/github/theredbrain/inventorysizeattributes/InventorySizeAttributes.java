@@ -5,10 +5,10 @@ import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEn
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.fzzyhmstrs.fzzy_config.api.RegisterType;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +18,14 @@ public class InventorySizeAttributes implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static ServerConfig SERVER_CONFIG;
 
-	public static RegistryEntry<EntityAttribute> HOTBAR_SLOT_AMOUNT;
-	public static RegistryEntry<EntityAttribute> INVENTORY_SLOT_AMOUNT;
+	public static Holder<Attribute> HOTBAR_SLOT_AMOUNT;
+	public static Holder<Attribute> INVENTORY_SLOT_AMOUNT;
 
-	public static int getActiveHotbarSlotAmount(PlayerEntity playerEntity) {
+	public static int getActiveHotbarSlotAmount(Player playerEntity) {
 		return ((DuckPlayerEntityMixin) playerEntity).inventorysizeattributes$getActiveHotbarSlotAmount();
 	}
 
-	public static int getActiveInventorySlotAmount(PlayerEntity playerEntity) {
+	public static int getActiveInventorySlotAmount(Player playerEntity) {
 		return ((DuckPlayerEntityMixin) playerEntity).inventorysizeattributes$getActiveInventorySlotAmount();
 	}
 
@@ -36,7 +36,7 @@ public class InventorySizeAttributes implements ModInitializer {
 	}
 
 	public static Identifier identifier(String path) {
-		return Identifier.of(MOD_ID, path);
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 
 }

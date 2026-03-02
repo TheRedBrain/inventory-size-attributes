@@ -1,11 +1,11 @@
 package com.github.theredbrain.inventorysizeattributes.screen;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public interface DuckScreenHandlerMixin {
-	default void inventorysizeattributes$updateActiveHotbarSlots(PlayerEntity playerEntity) {
+	default void inventorysizeattributes$updateActiveHotbarSlots(Player playerEntity) {
 	}
 
-	default void inventorysizeattributes$updateActiveInventorySlots(PlayerEntity playerEntity) {
+	default void inventorysizeattributes$updateActiveInventorySlots(Player playerEntity) {
 	}
 }

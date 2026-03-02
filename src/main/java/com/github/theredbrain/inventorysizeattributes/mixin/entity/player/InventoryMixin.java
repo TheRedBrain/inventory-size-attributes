@@ -4,27 +4,27 @@ import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEn
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(PlayerInventory.class)
-public abstract class PlayerInventoryMixin {
+@Mixin(Inventory.class)
+public abstract class InventoryMixin {
 
 	@Shadow
 	@Final
-	public PlayerEntity player;
+	public Player player;
 
 	@WrapOperation(
-			method = "getEmptySlot",
+			method = "getFreeSlot",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/item/ItemStack;isEmpty()Z"
+					target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z"
 			)
 	)
 	public boolean inventorysizeattributes$wrap_isEmpty(ItemStack instance, Operation<Boolean> original, @Local int i) {
@@ -32,14 +32,14 @@ public abstract class PlayerInventoryMixin {
 	}
 
 	@WrapOperation(
-			method = "getOccupiedSlotWithRoomForStack",
+			method = "getSlotWithRemainingSpace",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/entity/player/PlayerInventory;canStackAddMore(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z",
+					target = "Lnet/minecraft/world/entity/player/Inventory;hasRemainingSpaceForItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z",
 					ordinal = 2
 			)
 	)
-	private boolean inventorysizeattributes$wrap_canStackAddMore(PlayerInventory instance, ItemStack existingStack, ItemStack stack, Operation<Boolean> original, @Local int i) {
+	private boolean inventorysizeattributes$wrap_canStackAddMore(Inventory instance, ItemStack existingStack, ItemStack stack, Operation<Boolean> original, @Local int i) {
 		return original.call(instance, existingStack, stack) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
 	}
 

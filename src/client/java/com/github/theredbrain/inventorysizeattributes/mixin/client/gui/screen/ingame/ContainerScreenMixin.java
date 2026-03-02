@@ -6,25 +6,24 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.ChestMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> {
+@Mixin(ContainerScreen.class)
+public abstract class ContainerScreenMixin extends AbstractContainerScreen<ChestMenu> {
 
 	@Unique
 	private static final Identifier SLOT_TEXTURE = Identifier.withDefaultNamespace("textures/gui/sprites/container/slot.png");
 
-	public InventoryScreenMixin(InventoryMenu handler, RecipeBookComponent<?> recipeBook, Inventory inventory, Component title) {
-		super(handler, recipeBook, inventory, title);
+	public ContainerScreenMixin(ChestMenu handler, Inventory inventory, Component title) {
+		super(handler, inventory, title);
 	}
 
 	@WrapOperation(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
@@ -32,7 +31,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 		if (InventorySizeAttributesClient.CLIENT_CONFIG.show_inactive_inventory_slots.get()) {
 			original.call(instance, pipeline, sprite, x, y, u, v, width, height, textureWidth, textureHeight);
 		} else {
-			instance.blit(pipeline, InventorySizeAttributes.identifier("textures/gui/container/inventory_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
+			instance.blit(pipeline, InventorySizeAttributes.identifier("textures/gui/container/generic_54_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
 
 			int inventorySize = 0;
 			int hotbarSize = 0;
@@ -40,12 +39,12 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 				hotbarSize = InventorySizeAttributes.getActiveHotbarSlotAmount(this.minecraft.player);
 				inventorySize = InventorySizeAttributes.getActiveInventorySlotAmount(this.minecraft.player);
 			}
-			for (int i = 0; i < (Math.min(inventorySize, 27)); ++i) {
-				int j = (i / 9);
-				instance.blit(pipeline, SLOT_TEXTURE, x + 7 + (i - (j * 9)) * 18, y + 83 + (j * 18), 0, 0, 18, 18, 18, 18);
+			for (int k = 0; k < (Math.min(inventorySize, 27)); ++k) {
+				int j = (k / 9);
+				instance.blit(pipeline, SLOT_TEXTURE, x + 7 + (k - (j * 9)) * 18, y + 13 + (j * 18), 0, 0, 18, 18, 18, 18);
 			}
-			for (int i = 0; i < (Math.min(hotbarSize, 9)); ++i) {
-				instance.blit(pipeline, SLOT_TEXTURE, x + 7 + i * 18, y + 141, 0, 0, 18, 18, 18, 18);
+			for (int k = 0; k < (Math.min(hotbarSize, 9)); ++k) {
+				instance.blit(pipeline, SLOT_TEXTURE, x + 7 + k * 18, y + 71, 0, 0, 18, 18, 18, 18);
 			}
 		}
 	}

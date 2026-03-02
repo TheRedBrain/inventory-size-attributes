@@ -6,25 +6,24 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.DispenserScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.DispenserMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> {
+@Mixin(DispenserScreen.class)
+public abstract class DispenserScreenMixin extends AbstractContainerScreen<DispenserMenu> {
 
 	@Unique
 	private static final Identifier SLOT_TEXTURE = Identifier.withDefaultNamespace("textures/gui/sprites/container/slot.png");
 
-	public InventoryScreenMixin(InventoryMenu handler, RecipeBookComponent<?> recipeBook, Inventory inventory, Component title) {
-		super(handler, recipeBook, inventory, title);
+	public DispenserScreenMixin(DispenserMenu handler, Inventory inventory, Component title) {
+		super(handler, inventory, title);
 	}
 
 	@WrapOperation(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
@@ -32,7 +31,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 		if (InventorySizeAttributesClient.CLIENT_CONFIG.show_inactive_inventory_slots.get()) {
 			original.call(instance, pipeline, sprite, x, y, u, v, width, height, textureWidth, textureHeight);
 		} else {
-			instance.blit(pipeline, InventorySizeAttributes.identifier("textures/gui/container/inventory_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
+			instance.blit(pipeline, InventorySizeAttributes.identifier("textures/gui/container/dispenser_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
 
 			int inventorySize = 0;
 			int hotbarSize = 0;

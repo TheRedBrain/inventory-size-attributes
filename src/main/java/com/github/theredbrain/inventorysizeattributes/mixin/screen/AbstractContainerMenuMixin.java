@@ -4,41 +4,41 @@ import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMi
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ScreenHandler.class)
-public abstract class ScreenHandlerMixin implements DuckScreenHandlerMixin {
+@Mixin(AbstractContainerMenu.class)
+public abstract class AbstractContainerMenuMixin implements DuckScreenHandlerMixin {
 
 	@Shadow
 	@Final
-	public DefaultedList<Slot> slots;
+	public NonNullList<Slot> slots;
 
 	@WrapOperation(
-			method = "insertItem",
+			method = "moveItemStackTo",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/item/ItemStack;areItemsAndComponentsEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"
+					target = "Lnet/minecraft/world/item/ItemStack;isSameItemSameComponents(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"
 			)
 	)
 	public boolean inventorysizeattributes$wrap_areItemsAndComponentsEqual(ItemStack stack, ItemStack otherStack, Operation<Boolean> original, @Local Slot slot) {
-		return original.call(stack, otherStack) && slot.isEnabled();
+		return original.call(stack, otherStack) && slot.isActive();
 	}
 
 	@WrapOperation(
-			method = "insertItem",
+			method = "moveItemStackTo",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/screen/slot/Slot;canInsert(Lnet/minecraft/item/ItemStack;)Z"
+					target = "Lnet/minecraft/world/inventory/Slot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z"
 			)
 	)
 	public boolean inventorysizeattributes$wrap_canInsert(Slot instance, ItemStack stack, Operation<Boolean> original, @Local Slot slot) {
-		return original.call(instance, stack) && slot.isEnabled();
+		return original.call(instance, stack) && slot.isActive();
 	}
 }

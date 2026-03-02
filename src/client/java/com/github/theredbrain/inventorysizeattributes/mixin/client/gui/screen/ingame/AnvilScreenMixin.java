@@ -2,8 +2,8 @@ package com.github.theredbrain.inventorysizeattributes.mixin.client.gui.screen.i
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.gui.screen.ingame.HasBackgroundWithNoSlots;
-import net.minecraft.client.gui.screen.ingame.AnvilScreen;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.AnvilScreen;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(AnvilScreen.class)
