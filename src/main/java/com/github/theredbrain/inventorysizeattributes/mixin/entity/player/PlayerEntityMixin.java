@@ -40,7 +40,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 		if (!this.getEntityWorld().isClient()) {
 			this.getAttributes().addTemporaryModifiers(getNaturalAttributeModifiers(this.getEntityWorld()));
 		}
-		if (this.getEntityWorld().getTime() % 20L == 10) {
+		if (this.getEntityWorld().getTimeOfDay() % 20L == 10) {
 			this.inventorysizeattributes$updateActiveInventorySlots();
 			if (!this.getEntityWorld().isClient()) {
 				this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
