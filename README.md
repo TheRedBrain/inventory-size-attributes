@@ -2,6 +2,8 @@
 
 This mod adds two new entity attributes, which control how many inventory and hotbar slots are active.
 
+> This mod does not change the maximum amount of inventory or hotbar slots!
+
 ## Configuration
 
 The entity attributes "inventorysizeattributes:generic.hotbar_slot_amount" and "inventorysizeattributes:generic.inventory_slot_amount" control how many slots are active.
