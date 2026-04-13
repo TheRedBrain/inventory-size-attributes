@@ -3,6 +3,7 @@
   "package": "com.github.theredbrain.inventorysizeattributes.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "gui.hud.InGameHudMixin",
     "gui.screen.ingame.AbstractFurnaceScreenMixin",
     "gui.screen.ingame.AnvilScreenMixin",
     "gui.screen.ingame.BeaconScreenMixin",
