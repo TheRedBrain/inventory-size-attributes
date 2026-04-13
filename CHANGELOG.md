@@ -1,3 +1,13 @@
+# 1.4.0
+
+- added client config option to hide inactive hotbar slots in the HUD
+- added client config option to center the hotbar HUD element (no effect if all nine slots are active)
+
+## Changes
+
+- replaced the new game rules with server config settings again, I decided that I don't like game rules that much
+- inactive inventory slots are now hidden by default (can be changed in the client config)
+
 # 1.3.0
 
 - replaced the "default_hotbar_slot_amount" server config option with "naturalHotbarSize" game rule and adjusted the "generic.hotbar_slot_amount" entity attribute

@@ -4,9 +4,13 @@ This mod adds two new entity attributes, which control how many inventory and ho
 
 ## Configuration
 
-The entity attributes "generic.hotbar_slot_amount" and "generic.inventory_slot_amount" control how many slots are active.
+The entity attributes "inventorysizeattributes:generic.hotbar_slot_amount" and "inventorysizeattributes:generic.inventory_slot_amount" control how many slots are active.
 
-The "naturalHotbarSize" and "naturalInventorySize" game rules control the amount of hotbar and inventory slots each player has by default.
+The "natural_player_hotbar_slot_amount" and "natural_player_inventory_slot_amount" server config options control the amount of hotbar and inventory slots each player has by default.
+
+The client config has options for showing/hiding inactive slots, both in inventory screens and in the HUD.
+
+There is also an option to center the hotbar GUI element.
 
 ## "What happens to items on my hotbar/in my inventory when those become smaller?"
 
