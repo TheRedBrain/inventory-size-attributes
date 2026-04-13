@@ -2,7 +2,6 @@ package com.github.theredbrain.inventorysizeattributes;
 
 import com.github.theredbrain.inventorysizeattributes.config.ServerConfig;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
-import com.github.theredbrain.inventorysizeattributes.registry.GameRulesRegistry;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -33,8 +32,6 @@ public class InventorySizeAttributes implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Inventories come in different sizes now!");
 		SERVER_CONFIG = ConfigApiJava.registerAndLoadConfig(ServerConfig::new);
-
-		GameRulesRegistry.init();
 	}
 
 	public static Identifier identifier(String path) {
