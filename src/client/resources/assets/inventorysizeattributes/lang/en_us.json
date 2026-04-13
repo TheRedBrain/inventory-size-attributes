@@ -10,8 +10,8 @@
 
 	"inventorysizeattributes.server": "Server Side Settings",
 
-	"inventorysizeattributes.server.natural_player_hotbar_size": "Default Hotbar Slot Amount",
-	"inventorysizeattributes.server.natural_player_inventory_size": "Default Inventory Slot Amount",
+	"inventorysizeattributes.server.natural_player_hotbar_slot_amount": "Default Hotbar Slot Amount",
+	"inventorysizeattributes.server.natural_player_inventory_slot_amount": "Default Inventory Slot Amount",
 
 	"hud.message.itemRemovedFromInactiveInventorySlots": "Your inventory or hotbar got smaller and some items were transferred to active inventory slots. If your inventory was full, they were dropped at your location."
 }

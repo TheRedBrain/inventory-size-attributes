@@ -2,7 +2,6 @@ package com.github.theredbrain.inventorysizeattributes.mixin.entity.player;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
-import com.github.theredbrain.inventorysizeattributes.registry.GameRulesRegistry;
 import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
 import com.google.common.collect.HashMultimap;
 import net.minecraft.entity.EntityType;
@@ -117,8 +116,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements DuckPlay
 	@Unique
 	private HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getNaturalAttributeModifiers(World world) {
 		HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> hashMultimap = HashMultimap.create();
-		hashMultimap.put(InventorySizeAttributes.HOTBAR_SLOT_AMOUNT, new EntityAttributeModifier(InventorySizeAttributes.identifier("natural_hotbar_slot_amount_modifier"), world.getGameRules().get(GameRulesRegistry.NATURAL_HOTBAR_SIZE).get(), EntityAttributeModifier.Operation.ADD_VALUE));
-		hashMultimap.put(InventorySizeAttributes.INVENTORY_SLOT_AMOUNT, new EntityAttributeModifier(InventorySizeAttributes.identifier("natural_inventory_slot_amount_modifier"), world.getGameRules().get(GameRulesRegistry.NATURAL_INVENTORY_SIZE).get(), EntityAttributeModifier.Operation.ADD_VALUE));
+		hashMultimap.put(InventorySizeAttributes.HOTBAR_SLOT_AMOUNT, new EntityAttributeModifier(InventorySizeAttributes.identifier("natural_hotbar_slot_amount_modifier"), InventorySizeAttributes.SERVER_CONFIG.natural_player_hotbar_slot_amount.get(), EntityAttributeModifier.Operation.ADD_VALUE));
+		hashMultimap.put(InventorySizeAttributes.INVENTORY_SLOT_AMOUNT, new EntityAttributeModifier(InventorySizeAttributes.identifier("natural_inventory_slot_amount_modifier"), InventorySizeAttributes.SERVER_CONFIG.natural_player_inventory_slot_amount.get(), EntityAttributeModifier.Operation.ADD_VALUE));
 		return hashMultimap;
 	}
 

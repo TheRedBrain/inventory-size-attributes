@@ -1,7 +1,9 @@
 package com.github.theredbrain.inventorysizeattributes;
 
+import com.github.theredbrain.inventorysizeattributes.config.ServerConfig;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
 import com.github.theredbrain.inventorysizeattributes.registry.GameRulesRegistry;
+import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class InventorySizeAttributes implements ModInitializer {
 	public static final String MOD_ID = "inventorysizeattributes";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static ServerConfig SERVER_CONFIG;
 
 	public static RegistryEntry<EntityAttribute> HOTBAR_SLOT_AMOUNT;
 	public static RegistryEntry<EntityAttribute> INVENTORY_SLOT_AMOUNT;
@@ -29,6 +32,7 @@ public class InventorySizeAttributes implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Inventories come in different sizes now!");
+		SERVER_CONFIG = ConfigApiJava.registerAndLoadConfig(ServerConfig::new);
 
 		GameRulesRegistry.init();
 	}
