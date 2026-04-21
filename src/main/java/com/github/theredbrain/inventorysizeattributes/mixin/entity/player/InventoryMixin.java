@@ -39,7 +39,7 @@ public abstract class InventoryMixin {
 					ordinal = 2
 			)
 	)
-	private boolean inventorysizeattributes$wrap_canStackAddMore(Inventory instance, ItemStack slotItemStack, ItemStack newItemStack, Operation<Boolean> original, @Local(name = "i") int i) {
+	private boolean inventorysizeattributes$wrap_hasRemainingSpaceForItem(Inventory instance, ItemStack slotItemStack, ItemStack newItemStack, Operation<Boolean> original, @Local(name = "i") int i) {
 		return original.call(instance, slotItemStack, newItemStack) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
 	}
 

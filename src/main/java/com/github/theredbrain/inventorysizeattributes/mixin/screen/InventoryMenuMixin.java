@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.RecipeBookMenu;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(InventoryMenu.class)
-public abstract class InventoryMenuMixin extends RecipeBookMenu implements DuckScreenHandlerMixin {
+public abstract class InventoryMenuMixin extends RecipeBookMenu implements DuckMenuMixin {
 
 	public InventoryMenuMixin(MenuType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);

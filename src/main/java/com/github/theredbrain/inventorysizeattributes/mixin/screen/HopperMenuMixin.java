@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,15 +15,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HopperMenu.class)
-public abstract class HopperMenuMixin extends AbstractContainerMenu implements DuckScreenHandlerMixin {
+public abstract class HopperMenuMixin extends AbstractContainerMenu implements DuckMenuMixin {
 	public HopperMenuMixin(MenuType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);
 	}
 
 	@Inject(method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;)V", at = @At("TAIL"))
-	public void HopperScreenHandler(int syncId, Inventory playerInventory, Container inventory, CallbackInfo ci) {
-		this.inventorysizeattributes$updateActiveHotbarSlots(playerInventory.player);
-		this.inventorysizeattributes$updateActiveInventorySlots(playerInventory.player);
+	public void HopperMenu(int containerId, Inventory inventory, Container hopper, CallbackInfo ci) {
+		this.inventorysizeattributes$updateActiveHotbarSlots(inventory.player);
+		this.inventorysizeattributes$updateActiveInventorySlots(inventory.player);
 	}
 
 	@Override

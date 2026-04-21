@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -17,16 +17,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemCombinerMenu.class)
-public abstract class ItemCombinerMenuMixin extends AbstractContainerMenu implements DuckScreenHandlerMixin {
+public abstract class ItemCombinerMenuMixin extends AbstractContainerMenu implements DuckMenuMixin {
 
 	protected ItemCombinerMenuMixin(@Nullable MenuType<?> type, int syncId) {
 		super(type, syncId);
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	public void ForgingScreenHandler(MenuType<?> type, int syncId, Inventory playerInventory, ContainerLevelAccess context, ItemCombinerMenuSlotDefinition forgingSlotsManager, CallbackInfo ci) {
-		this.inventorysizeattributes$updateActiveHotbarSlots(playerInventory.player);
-		this.inventorysizeattributes$updateActiveInventorySlots(playerInventory.player);
+	public void ItemCombinerMenu(MenuType<?> menuType, int containerId, Inventory inventory, ContainerLevelAccess access, ItemCombinerMenuSlotDefinition itemInputSlots, CallbackInfo ci) {
+		this.inventorysizeattributes$updateActiveHotbarSlots(inventory.player);
+		this.inventorysizeattributes$updateActiveInventorySlots(inventory.player);
 	}
 
 	@Override

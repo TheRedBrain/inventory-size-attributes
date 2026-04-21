@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,13 +17,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BeaconMenu.class)
-public abstract class BeaconMenuMixin extends AbstractContainerMenu implements DuckScreenHandlerMixin {
+public abstract class BeaconMenuMixin extends AbstractContainerMenu implements DuckMenuMixin {
 	public BeaconMenuMixin(MenuType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);
 	}
 
 	@Inject(method = "<init>(ILnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V", at = @At("TAIL"))
-	public void BeaconScreenHandler(int syncId, Container inventory, ContainerData propertyDelegate, ContainerLevelAccess context, CallbackInfo ci) {
+	public void BeaconMenu(int containerId, Container inventory, ContainerData beaconData, ContainerLevelAccess access, CallbackInfo ci) {
 		if (inventory instanceof Inventory playerInventory) {
 			this.inventorysizeattributes$updateActiveHotbarSlots(playerInventory.player);
 			this.inventorysizeattributes$updateActiveInventorySlots(playerInventory.player);

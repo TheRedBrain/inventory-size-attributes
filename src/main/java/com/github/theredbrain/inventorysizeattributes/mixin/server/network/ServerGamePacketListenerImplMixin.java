@@ -16,7 +16,7 @@ public class ServerGamePacketListenerImplMixin {
 	public ServerPlayer player;
 
 	@WrapOperation(method = "handleSetCarriedItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;getSelectionSize()I"))
-	public int inventorysizeattributes$wrap_getHotbarSize(Operation<Integer> original) {
+	public int inventorysizeattributes$wrap_getSelectionSize(Operation<Integer> original) {
 		return ((DuckPlayerEntityMixin) this.player).inventorysizeattributes$getActiveHotbarSlotAmount();
 	}
 

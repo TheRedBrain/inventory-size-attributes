@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,15 +15,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GrindstoneMenu.class)
-public abstract class GrindstoneMenuMixin extends AbstractContainerMenu implements DuckScreenHandlerMixin {
+public abstract class GrindstoneMenuMixin extends AbstractContainerMenu implements DuckMenuMixin {
 	public GrindstoneMenuMixin(MenuType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);
 	}
 
 	@Inject(method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V", at = @At("TAIL"))
-	public void GrindstoneScreenHandler(int syncId, Inventory playerInventory, ContainerLevelAccess context, CallbackInfo ci) {
-		this.inventorysizeattributes$updateActiveHotbarSlots(playerInventory.player);
-		this.inventorysizeattributes$updateActiveInventorySlots(playerInventory.player);
+	public void GrindstoneMenu(int containerId, Inventory inventory, ContainerLevelAccess access, CallbackInfo ci) {
+		this.inventorysizeattributes$updateActiveHotbarSlots(inventory.player);
+		this.inventorysizeattributes$updateActiveInventorySlots(inventory.player);
 	}
 
 	@Override

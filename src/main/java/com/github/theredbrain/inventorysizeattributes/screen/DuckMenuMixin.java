@@ -2,7 +2,7 @@ package com.github.theredbrain.inventorysizeattributes.screen;
 
 import net.minecraft.world.entity.player.Player;
 
-public interface DuckScreenHandlerMixin {
+public interface DuckMenuMixin {
 	default void inventorysizeattributes$updateActiveHotbarSlots(Player playerEntity) {
 	}
 

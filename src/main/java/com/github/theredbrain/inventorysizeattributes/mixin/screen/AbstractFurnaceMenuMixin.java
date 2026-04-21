@@ -1,7 +1,7 @@
 package com.github.theredbrain.inventorysizeattributes.mixin.screen;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.github.theredbrain.slotcustomizationapi.api.SlotCustomization;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
@@ -21,15 +21,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractFurnaceMenu.class)
-public abstract class AbstractFurnaceMenuMixin extends RecipeBookMenu implements DuckScreenHandlerMixin {
+public abstract class AbstractFurnaceMenuMixin extends RecipeBookMenu implements DuckMenuMixin {
 	public AbstractFurnaceMenuMixin(MenuType<?> screenHandlerType, int i) {
 		super(screenHandlerType, i);
 	}
 
 	@Inject(method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V", at = @At("TAIL"))
-	public void AbstractFurnaceScreenHandler(MenuType<?> type, RecipeType<? extends AbstractCookingRecipe> recipeType, ResourceKey<RecipePropertySet> recipePropertySetKey, RecipeBookType category, int syncId, Inventory playerInventory, Container inventory, ContainerData propertyDelegate, CallbackInfo ci) {
-		this.inventorysizeattributes$updateActiveHotbarSlots(playerInventory.player);
-		this.inventorysizeattributes$updateActiveInventorySlots(playerInventory.player);
+	public void AbstractFurnaceMenu(MenuType<?> menuType, RecipeType<? extends AbstractCookingRecipe> recipeType, ResourceKey<RecipePropertySet> allowedInputs, RecipeBookType recipeBookType, int containerId, Inventory inventory, Container container, ContainerData data, CallbackInfo ci) {
+		this.inventorysizeattributes$updateActiveHotbarSlots(inventory.player);
+		this.inventorysizeattributes$updateActiveInventorySlots(inventory.player);
 	}
 
 	@Override

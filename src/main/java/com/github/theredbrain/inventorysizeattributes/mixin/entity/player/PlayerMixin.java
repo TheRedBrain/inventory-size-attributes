@@ -2,7 +2,7 @@ package com.github.theredbrain.inventorysizeattributes.mixin.entity.player;
 
 import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributes;
 import com.github.theredbrain.inventorysizeattributes.entity.player.DuckPlayerEntityMixin;
-import com.github.theredbrain.inventorysizeattributes.screen.DuckScreenHandlerMixin;
+import com.github.theredbrain.inventorysizeattributes.screen.DuckMenuMixin;
 import com.google.common.collect.HashMultimap;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -72,7 +72,7 @@ public abstract class PlayerMixin extends LivingEntity implements DuckPlayerEnti
 	private void inventorysizeattributes$updateActiveInventorySlots() {
 
 		Player playerEntity = ((Player) (Object) this);
-		if (this.containerMenu instanceof DuckScreenHandlerMixin screenHandler) {
+		if (this.containerMenu instanceof DuckMenuMixin screenHandler) {
 			screenHandler.inventorysizeattributes$updateActiveHotbarSlots(playerEntity);
 			screenHandler.inventorysizeattributes$updateActiveInventorySlots(playerEntity);
 		}
