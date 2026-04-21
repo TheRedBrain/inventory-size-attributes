@@ -27,7 +27,7 @@ public abstract class InventoryMixin {
 					target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z"
 			)
 	)
-	public boolean inventorysizeattributes$wrap_isEmpty(ItemStack instance, Operation<Boolean> original, @Local int i) {
+	public boolean inventorysizeattributes$wrap_isEmpty(ItemStack instance, Operation<Boolean> original, @Local(name = "i") int i) {
 		return original.call(instance) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
 	}
 
@@ -39,8 +39,8 @@ public abstract class InventoryMixin {
 					ordinal = 2
 			)
 	)
-	private boolean inventorysizeattributes$wrap_canStackAddMore(Inventory instance, ItemStack existingStack, ItemStack stack, Operation<Boolean> original, @Local int i) {
-		return original.call(instance, existingStack, stack) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
+	private boolean inventorysizeattributes$wrap_canStackAddMore(Inventory instance, ItemStack slotItemStack, ItemStack newItemStack, Operation<Boolean> original, @Local(name = "i") int i) {
+		return original.call(instance, slotItemStack, newItemStack) && inventorysizeattributes$isIndexInsideActiveInventorySize(i);
 	}
 
 	@Unique

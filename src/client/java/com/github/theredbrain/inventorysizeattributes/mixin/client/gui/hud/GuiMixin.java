@@ -10,7 +10,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -32,17 +32,17 @@ public abstract class GuiMixin implements DuckGuiMixin {
 	private Minecraft minecraft;
 
 	@Shadow
-	protected abstract void renderSlot(GuiGraphics guiGraphics, int i, int j, DeltaTracker deltaTracker, Player player, net.minecraft.world.item.ItemStack itemStack, int k);
+	protected abstract void extractSlot(final GuiGraphicsExtractor graphics, final int x, final int y, final DeltaTracker deltaTracker, final Player player, final ItemStack itemStack, final int seed);
 
 	@WrapOperation(
-			method = "renderHotbarAndDecorations",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderItemHotbar(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V")
+			method = "extractHotbarAndDecorations",
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractItemHotbar(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V")
 	)
-	private void inventorysizeattributes$wrap_renderItemHotbar(Gui instance, GuiGraphics guiGraphics, DeltaTracker deltaTracker, Operation<Void> original) {
+	private void inventorysizeattributes$wrap_extractItemHotbar(Gui instance, GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, Operation<Void> original) {
 		if (InventorySizeAttributesClient.CLIENT_CONFIG.show_inactive_hotbar_slots.get()) {
-			original.call(instance, guiGraphics, deltaTracker);
+			original.call(instance, graphics, deltaTracker);
 		} else {
-			GuiHelper.inventorysizeattributes$renderOverhauledItemHotbar(instance, guiGraphics, deltaTracker);
+			GuiHelper.inventorysizeattributes$extractOverhauledItemHotbar(instance, graphics, deltaTracker);
 		}
 	}
 
@@ -58,7 +58,7 @@ public abstract class GuiMixin implements DuckGuiMixin {
 	}
 
 	@Override
-	public void inventorysizeattributes$renderSlot_Invoker(GuiGraphics guiGraphics, int i, int j, DeltaTracker deltaTracker, Player player, ItemStack itemStack, int k) {
-		this.renderSlot(guiGraphics, i, j, deltaTracker, player, itemStack, k);
+	public void inventorysizeattributes$renderSlot_Invoker(final GuiGraphicsExtractor graphics, final int x, final int y, final DeltaTracker deltaTracker, final Player player, final ItemStack itemStack, final int seed) {
+		this.extractSlot(graphics, x, y, deltaTracker, player, itemStack, seed);
 	}
 }

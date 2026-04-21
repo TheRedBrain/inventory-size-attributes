@@ -5,7 +5,7 @@ import com.github.theredbrain.inventorysizeattributes.InventorySizeAttributesCli
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HopperScreen;
 import net.minecraft.network.chat.Component;
@@ -26,25 +26,25 @@ public abstract class HopperScreenMixin extends AbstractContainerScreen<HopperMe
 		super(handler, inventory, title);
 	}
 
-	@WrapOperation(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
-	protected void inventorysizeattributes$drawBackground(GuiGraphics instance, RenderPipeline pipeline, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
+	@WrapOperation(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
+	protected void inventorysizeattributes$extractBackground(GuiGraphicsExtractor instance, RenderPipeline renderPipeline, Identifier texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
 		if (InventorySizeAttributesClient.CLIENT_CONFIG.show_inactive_inventory_slots.get()) {
-			original.call(instance, pipeline, sprite, x, y, u, v, width, height, textureWidth, textureHeight);
+			original.call(instance, renderPipeline, texture, x, y, u, v, width, height, textureWidth, textureHeight);
 		} else {
-			instance.blit(pipeline, InventorySizeAttributes.identifier("textures/gui/container/hopper_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
+			instance.blit(renderPipeline, InventorySizeAttributes.identifier("textures/gui/container/hopper_no_slots.png"), x, y, u, v, width, height, textureWidth, textureHeight);
 
 			int inventorySize = 0;
 			int hotbarSize = 0;
-			if (this.minecraft != null && this.minecraft.player != null) {
+			if (this.minecraft.player != null) {
 				hotbarSize = InventorySizeAttributes.getActiveHotbarSlotAmount(this.minecraft.player);
 				inventorySize = InventorySizeAttributes.getActiveInventorySlotAmount(this.minecraft.player);
 			}
 			for (int i = 0; i < (Math.min(inventorySize, 27)); ++i) {
 				int j = (i / 9);
-				instance.blit(pipeline, SLOT_TEXTURE, x + 7 + (i - (j * 9)) * 18, y + 50 + (j * 18), 0, 0, 18, 18, 18, 18);
+				instance.blit(renderPipeline, SLOT_TEXTURE, x + 7 + (i - (j * 9)) * 18, y + 50 + (j * 18), 0, 0, 18, 18, 18, 18);
 			}
 			for (int i = 0; i < (Math.min(hotbarSize, 9)); ++i) {
-				instance.blit(pipeline, SLOT_TEXTURE, x + 7 + i * 18, y + 108, 0, 0, 18, 18, 18, 18);
+				instance.blit(renderPipeline, SLOT_TEXTURE, x + 7 + i * 18, y + 108, 0, 0, 18, 18, 18, 18);
 			}
 		}
 	}

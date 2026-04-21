@@ -40,7 +40,7 @@ public abstract class PlayerMixin extends LivingEntity implements DuckPlayerEnti
 		if (!this.level().isClientSide()) {
 			this.getAttributes().addTransientAttributeModifiers(getNaturalAttributeModifiers(this.level()));
 		}
-		if (this.level().getDayTime() % 20L == 10) {
+		if (this.level().getGameTime() % 20L == 10) {
 			this.inventorysizeattributes$updateActiveInventorySlots();
 			if (!this.level().isClientSide()) {
 				this.inventorysizeattributes$ejectItemsFromInactiveInventorySlots();
@@ -109,7 +109,7 @@ public abstract class PlayerMixin extends LivingEntity implements DuckPlayerEnti
 		}
 
 		if (bl && playerEntity instanceof ServerPlayer serverPlayerEntity) {
-			serverPlayerEntity.displayClientMessage(Component.translatable("hud.message.itemRemovedFromInactiveInventorySlots"), false);
+			serverPlayerEntity.sendSystemMessage(Component.translatable("hud.message.itemRemovedFromInactiveInventorySlots"), false);
 		}
 	}
 
